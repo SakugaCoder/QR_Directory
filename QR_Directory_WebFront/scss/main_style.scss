@@ -1,0 +1,100 @@
+$main_color : linear-gradient(119.35deg, #566495 0%, #6D1F88 62.47%);
+$main_font : 'Open Sans';
+$normal_font_size : 16px;
+
+$btn_hover_color : #9e3549;
+$main_shadow:  0px 4px 4px rgba(0, 0, 0, 0.25);
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: $main_font;
+    font-size: $normal_font_size;
+    outline: none;
+}
+
+header{
+    @include gradient_background_style;
+    padding-bottom: 20px;
+    overflow: hidden;
+    .logo-container{
+        display: block;
+        width: 100%;
+        img{
+            display: block;
+            margin: auto;
+            margin-bottom: 10px;
+            @include obj_responsive(173px,149px);
+        }
+    
+        h3{
+            font-weight: lighter;
+            color: #fff;
+            text-align: center;
+        }
+    }
+    
+    
+    .btn-container{
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        .add-button-container,.close-session-container{
+            display: block;
+            max-width: 140px;
+            width: 100%;
+            float: right;
+    
+            #add-button,#close-session-button{
+                display: flex;
+                margin: auto;
+                margin-top: 20px;
+                align-items: center;
+                justify-content: space-around;
+                background: none;
+                padding: 10px;
+                border: solid 1px #fff;
+                border-radius: 20px;
+                max-width: 130px;
+                transition: all ease 0.2s;
+                
+                p{
+                    display: inline-block;
+                    color: #fff;
+                }
+            
+                img{
+                    display: inline-block;
+                    @include obj_responsive(40px,40px);
+                }
+            }
+            
+            #add-button:hover,#close-session-button:hover{
+                @include button_style_hover;
+            }
+        }
+    }
+
+}
+
+input[type="text"],input[type="password"],
+input[type="number"],textarea{
+    display: block;
+    border: none;
+    max-width: 300px;
+    width: 100%;
+    margin: 20px auto;
+    background: #FFFFFF;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 30px;
+    padding: 10px;
+}
+
+footer{
+    display: block;
+    width: 100%;
+    padding: 20px 0px;
+    .footer-text{
+        text-align: center;
+    }
+}

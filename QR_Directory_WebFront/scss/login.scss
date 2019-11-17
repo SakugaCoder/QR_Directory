@@ -1,0 +1,41 @@
+@import "mixins";
+@import "main_style";
+
+.logo-container{
+	display: block;
+	width: 100%;
+	img{
+		display: block;
+		margin: auto;
+		margin-bottom: 10px;
+		@include obj_responsive(173px,149px);
+	}
+
+	h3{
+		font-weight: lighter;
+		color: #fff;
+		text-align: center;
+	}
+}
+
+.main-wraper{
+	padding: 40px 0px;;
+	@include gradient_background_style;
+	width: 100%;
+}
+
+.form-container{
+	display: block;
+	max-width: 600px;
+	width: 100%;
+	margin: auto;
+}
+
+input[type="submit"]{
+	@include button_style;
+	margin-bottom: 20px;
+}
+
+input[type="submit"]:hover{
+	@include button_style_hover;
+}

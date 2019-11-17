@@ -1,0 +1,157 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: "Open Sans";
+  font-size: 16px;
+  outline: none; }
+
+header {
+  padding-top: 40px;
+  background-image: linear-gradient(119.35deg, #566495 0%, #6D1F88 62.47%);
+  background-repeat: no-repeat;
+  background-size: cover;
+  padding-bottom: 20px;
+  overflow: hidden; }
+  header .logo-container {
+    display: block;
+    width: 100%; }
+    header .logo-container img {
+      display: block;
+      margin: auto;
+      margin-bottom: 10px;
+      max-width: 173px;
+      width: 100%;
+      max-height: 149px;
+      height: 100%; }
+    header .logo-container h3 {
+      font-weight: lighter;
+      color: #fff;
+      text-align: center; }
+  header .btn-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center; }
+    header .btn-container .add-button-container, header .btn-container .close-session-container {
+      display: block;
+      max-width: 140px;
+      width: 100%;
+      float: right; }
+      header .btn-container .add-button-container #add-button, header .btn-container .add-button-container #close-session-button, header .btn-container .close-session-container #add-button, header .btn-container .close-session-container #close-session-button {
+        display: flex;
+        margin: auto;
+        margin-top: 20px;
+        align-items: center;
+        justify-content: space-around;
+        background: none;
+        padding: 10px;
+        border: solid 1px #fff;
+        border-radius: 20px;
+        max-width: 130px;
+        transition: all ease 0.2s; }
+        header .btn-container .add-button-container #add-button p, header .btn-container .add-button-container #close-session-button p, header .btn-container .close-session-container #add-button p, header .btn-container .close-session-container #close-session-button p {
+          display: inline-block;
+          color: #fff; }
+        header .btn-container .add-button-container #add-button img, header .btn-container .add-button-container #close-session-button img, header .btn-container .close-session-container #add-button img, header .btn-container .close-session-container #close-session-button img {
+          display: inline-block;
+          max-width: 40px;
+          width: 100%;
+          max-height: 40px;
+          height: 100%; }
+      header .btn-container .add-button-container #add-button:hover, header .btn-container .add-button-container #close-session-button:hover, header .btn-container .close-session-container #add-button:hover, header .btn-container .close-session-container #close-session-button:hover {
+        cursor: pointer;
+        background: #9e3549;
+        border-color: #9e3549;
+        color: #fff;
+        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); }
+
+input[type="text"], input[type="password"],
+input[type="number"], textarea {
+  display: block;
+  border: none;
+  max-width: 300px;
+  width: 100%;
+  margin: 20px auto;
+  background: #FFFFFF;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 30px;
+  padding: 10px; }
+
+footer {
+  display: block;
+  width: 100%;
+  padding: 20px 0px; }
+  footer .footer-text {
+    text-align: center; }
+
+.main-wraper {
+  display: block;
+  width: 85%;
+  margin: 20px auto; }
+
+.search-options {
+  max-width: 300px;
+  width: 100%;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-around; }
+  .search-options select {
+    border: none;
+    background: #FFFFFF;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 30px;
+    background: #fff;
+    color: #000;
+    padding: 5px;
+    border-radius: 0px; }
+
+.search-bar {
+  display: block;
+  padding: 5px;
+  max-width: 300px;
+  width: 100%;
+  margin: 20px auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  background: #fff;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); }
+  .search-bar input[type="text"] {
+    box-shadow: none;
+    border-radius: 0px;
+    margin: 5px 0px; }
+  .search-bar img {
+    margin-right: 10px;
+    max-width: 20px;
+    width: 100%;
+    max-height: 20px;
+    height: 100%; }
+  .search-bar img:hover {
+    cursor: pointer; }
+
+.result-section .item-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 5px;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); }
+  .result-section .item-container .image {
+    max-width: 200px;
+    width: 100%;
+    max-height: 200px;
+    height: 100%;
+    min-height: 150px;
+    background-image: url("../assets/DS1052E-2T.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    margin-right: 5px; }
+  .result-section .item-container .item-data .general-data span p {
+    font-size: 14px; }
+  .result-section .item-container .item-data .actions {
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-around; }
+    .result-section .item-container .item-data .actions img:hover {
+      cursor: pointer; }

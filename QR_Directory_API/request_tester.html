@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<meta charset="UTF-8">
+	<title>Api Tester</title>
+</head>
+<body>
+	<div class="main-container">
+		<form id="main-form">
+			<label for="qr_code">QR Code</label>
+			<input type="text" name="qr_code_input" id="qr_code_input" placeholder="QR Code">
+			<input type="submit" value="Check Code">
+		</form>
+
+		<div id="results">
+			
+		</div>
+	</div>
+
+
+
+	<script>
+
+		const api_url = "http://localhost/QR_Directory_API/api.php?item=";
+
+		var main_form = document.querySelector('#main-form');
+		main_form.addEventListener('submit', function(e){
+			e.preventDefault();
+			let qr_code = document.querySelector('#qr_code_input');
+			console.log("Qr code: "+qr_code.value);
+			makeRequest(qr_code.value);
+		});
+
+
+
+		function makeRequest(code){
+			console.log("Starting request: "+code);
+			var request = new XMLHttpRequest();
+			request.onreadystatechange = function(){
+				if(this.readyState == 4 && this.status == 200){
+					console.log("Response has recived");
+					console.log(JSON.parse(request.responseText));
+				}
+			};
+
+			request.open('GET',api_url+code,true);
+			request.send();
+		}
+	</script>
+</body>
+</html>

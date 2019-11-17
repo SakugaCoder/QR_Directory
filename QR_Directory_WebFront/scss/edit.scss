@@ -1,0 +1,85 @@
+@import "mixins";
+@import "main_style";
+
+
+header{
+    .btn-regresar{
+        @include button_style;
+        display: block;
+        float: left;
+        text-decoration: none;
+        margin-left: 20px;
+        text-align: center;
+    }
+
+    .btn-regresar:hover{
+        @include button_style_hover;
+    }
+}
+.main-wraper{
+    @include main_wraper;
+
+    .item-data{
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: $main_shadow;
+
+        display: block;
+        max-width: 500px;
+        width: 100%;
+        margin: auto;
+
+        form{
+
+            .image-data{
+                .img{
+                    display: block;
+                    min-height: 160px;
+                    margin: auto;
+                    @include obj_responsive(200px, 160px);
+                    background-image: url("../assets/DS1052E-2T.jpg");
+                    background-size: cover;
+                    background-repeat: no-repeat;
+                    background-position: center;
+                }
+
+                input[type="file"]{
+                    display: block;
+                    margin: auto;
+                }
+            }
+
+            .general-data{
+                .field{
+                    label{
+                        display: inline-block;
+                    }
+                    input{
+                        display: inline-block;
+                    }
+                }
+            }
+
+            .ficha-tecnica{
+                object{
+                    width: 100%;
+                    min-height: 300px;
+                    max-height: 400px;
+                    height: 100%;
+                    display: block;
+                    margin: 20px auto;
+                }
+            }
+
+            input[type="submit"]{
+                @include button_style;
+                border-color: #000;
+                color: #000;
+            }
+
+            input[type="submit"]:hover{
+                @include button_style_hover;
+            }
+        }
+    }
+}

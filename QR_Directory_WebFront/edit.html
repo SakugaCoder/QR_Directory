@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="./css/edit.css">
+    <link rel="stylesheet" href="./assets/plugins/dropify-master/dist/css/dropify.min.css">
+    <title>Edit</title>
+</head>
+<body>
+    <header>
+        <div class="logo-container">
+                <img src="assets/logo.png" alt="QR Directory logo">
+                <h3>QR Directory</h3>
+        </div>
+
+        <a class="btn-regresar" href="dashboard.html">Regresar</a>
+    </header>
+
+    <div class="main-wraper">
+        <div class="item-data">
+            <form action="" method="POST" onsubmit="insertItem(event)" id="edit-form">
+                    <div class="image-data" entype="multipart/form-data">
+                        <!-- <div class="img"></div> -->
+                        <input type="file"  name="item_image" id="item_image" class="dropify" data-default-file="" data-max-file-size="5M"/>
+                    </div>
+
+                    <div class="general-data">
+                        <!-- -->
+                        <input type="hidden" name="insert_modify" id="insert_modify" value="">
+                        <div class="field">
+                                <label for="id">ID &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                <input type="text" name="id" id="id" placeholder="1FBDSS" disabled required>
+                        </div>
+
+                        <div class="field">
+                                <label for="descripcion">Descripción &nbsp;&nbsp;</label>
+                                <input type="text" name="descripcion" id="descripcion" placeholder="Descripción">
+                        </div>
+
+                        <div class="field">
+                                <label for="marca">Marca &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                <input type="text" name="marca" id="marca" placeholder="Marca">
+                        </div>
+
+                        
+                        <div class="field">
+                                <label for="modelo">Modelo &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                <input type="text" name="modelo" id="modelo" placeholder="Modelo">
+                        </div>
+
+                        
+                        <div class="field">
+                                <label for="n_pizas">No. Piezas &nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                <input type="text" name="n_piezas" id="n_piezas" placeholder="Número de piezas">
+                        </div>
+
+                        
+                        <div class="field">
+                                <label for="id">Habilitadas &nbsp;&nbsp;&nbsp;</label>
+                                <input type="text" name="habilitadas" id="habilitadas" placeholder="Habiliatadas">
+                        </div>
+
+                        
+                        <div class="field">
+                                <label for="id">No. De Pieza &nbsp;</label>
+                                <input type="text" name="no_pieza" id="no_pieza" placeholder="Número de pieza">
+                        </div>
+
+                        
+                        <div class="field">
+                                <label for="laboratorio">Laboratorio &nbsp;&nbsp;</label>
+                                <select name="laboratorio" id="laboratorio">
+                                        <option value="0">Laboratorio</option>
+                                        <option value="1">LT1-LABORATORIO DE MANUFACTURA</option>
+                                </select>
+                        </div>
+
+                        
+                        <div class="field" style="margin: 20px 0px;">
+                                <label for="tipo_material">Tipo material</label>
+                                <select name="tipo_material" id="tipo_material">
+                                    <option value="0">Tipo</option>
+                                    <option value="1">Maquinaria</option>
+                                    <option value="2">Equipo</option>
+                                    <option value="3">Herramienta</option>
+                                </select>
+                        </div>
+                    </div>
+
+                    <div class="ficha-tecnica">
+                            <input type="file" name="ficha_tecnica" id="ficha_tecnica" class="dropify-2" data-default-file="" data-max-file-size="30M">
+                            <object id="datasheet_prev" type="application/pdf" data="">
+                                <p>Este navegador no sporta la visualización de archivos PDF.</p>
+                            </object>
+                    </div>
+
+                    <input type="submit" name="btn_save" id="btn_save" value="Guardar">
+            </form>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="./assets/plugins/dropify.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    <script src="scripts/edit.js"></script>
+</body>
+</html>

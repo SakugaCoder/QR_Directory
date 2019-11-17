@@ -1,0 +1,47 @@
+@mixin gradient_background_style{
+	padding-top: 40px;
+	background-image: $main_color;
+	background-repeat: no-repeat;
+	background-size: cover;
+}
+
+@mixin obj_responsive($max_width,$max_height){
+	max-width: $max_width;
+	width: 100%;
+	max-height: $max_height;
+	height: 100%;
+}
+
+@mixin input_style{
+	background: #FFFFFF;
+	box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+	border-radius: 30px;
+}
+
+@mixin button_style{
+	font-weight: lighter;
+	display: block;
+	@include obj_responsive(160px,66px);
+	margin: 0px auto;
+	background: none;
+	color: #fff;
+	border: 2px solid #FFFFFF;
+	box-sizing: border-box;
+	border-radius: 20px;
+	transition: all ease 0.2s;
+	padding: 15px 30px;
+	box-shadow: 0px 4px 4px rgba(0, 0, 0, 0);
+}
+
+@mixin button_style_hover{
+	cursor: pointer;
+	background: $btn_hover_color;
+	border-color: $btn_hover_color;
+	color: #fff;
+	box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+@mixin main_wraper{
+    display: block;
+    width: 85%;
+    margin: 20px auto;
+}
