@@ -1,4 +1,5 @@
 (function(){
+	validateLogin("admin");
 	window.onload = function() {
 		args = location.search.substr(1);
 		console.log("Args length:"+args.length);

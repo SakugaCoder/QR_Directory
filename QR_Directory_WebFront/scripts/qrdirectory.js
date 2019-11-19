@@ -1,3 +1,5 @@
+api_url = "http://localhost/QR_Directory/QR_Directory_API/api.php";
+
 (function(){
     console.log("Logged value:");
     console.log(localStorage.getItem("logged"));
@@ -142,4 +144,43 @@ function showQueryResults(contaier,descripcion,marca,modelo,id,img){
     item_image.style.backgroundSize = "70% 70%";
     item_image.style.backgroundPosition = "center",
     item_image.style.backgroundRepeat = "no-repeat";
+}
+
+function deleteItem(item){
+    console.log("Borrando archivo");
+    let fd = new FormData();
+    fd.append("item",item);
+    console.log("El item es: "+item);
+    console.log("api url "+api_url);
+    let XMLHttp = new XMLHttpRequest();
+    XMLHttp.onreadystatechange = function() {
+        if(XMLHttp.status == 200 && XMLHttp.readyState == 4){
+            console.log("respuesta recibida");
+            console.log(XMLHttp.responseText);
+            let res = JSON.parse(XMLHttp.responseText);
+            if(res.error){
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: res.error,
+                  });
+            }
+            else{
+
+
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Acción completada correctamente',
+                    text: res.message,
+                    footer: res.item_deleted
+                  }).then( (accepted) => {
+                      if(accepted){
+                        document.querySelector(".search-bar img").click()
+                      }
+                  });
+            }
+        }
+    };
+    XMLHttp.open("DELETE",api_url,true);
+    XMLHttp.send(fd);
 }

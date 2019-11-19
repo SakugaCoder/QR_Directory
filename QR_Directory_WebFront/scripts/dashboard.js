@@ -54,6 +54,7 @@ function adminAction(evt){
                 }
             ).then( (accepted) => {
                 if(!accepted.value){
+                    deleteItem(id.split("_")[0]);
                     console.log("Item deleted");
                 }
                 else{

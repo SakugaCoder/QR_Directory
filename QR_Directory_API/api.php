@@ -12,6 +12,9 @@
 		$datasheet_url = null;
 		$item_full_id = $_POST['id'];
 		$item_partial_id = (explode("-",$item_full_id))[0] . "-" . (explode("-",$item_full_id))[2];
+
+		$image_exists = false;
+		$datasheet_exists = false;
 		
 		//Check for image available
 		if(isset($_FILES['item_image'])){
@@ -22,6 +25,7 @@
 
 				if(file_exists($uploads_dir.$images_dir.$image_name)){
 					echo "El archivo ya existe";
+					$image_exist = true;
 					$image_url = $uploads_dir.$images_dir.$image_name;
 				}
 
@@ -52,6 +56,7 @@
 				$datasheet_extension = (explode(".",$datasheet_name))[sizeof(explode(".",$datasheet_name)) - 1];
 				if(file_exists($uploads_dir.$datasheet_dir.$datasheet_name)){
 					echo "El archivo ya existe";
+					$datasheet_exists = true;
 					$datasheet_url = $uploads_dir.$datasheet_dir.$datasheet_name;
 				}
 				else if($datasheet_extension == "doc" || $datasheet_extension == "docx" || $datasheet_extension == "pdf"){
@@ -102,15 +107,67 @@
 					"Echo felizidades llenaste todos los campos";
 					echo "Has llenado todo incluyendo lab y kind";
 					$option = $_POST['insert_modify'];
+					$sql = "SELECT * from material where id = ?";
+					$stm = $con->prepare($sql);
+					$stm->bind_param("s",$_POST['id']);
+					$coincidence_number = checkItemId($stm);
 					if($option == "modify"){
-						echo "Modificando elementos";
+						if($coincidence_number == 1){
+
+							//Modify image url if is necesary
+							if($image_url != null){
+								echo "La img url es: ".$image_url."la id es: ".$_POST['id'];
+								$sql = "UPDATE material set img = ? WHERE id = ?";
+								$stm = $con->prepare($sql);
+								$stm->bind_param("ss",$image_url,$_POST['id']);
+								$stm->execute();
+								if($stm){
+									echo "Imagen actualizada";
+								}
+
+								else{
+									echo "Error actualizando imagen";
+								}
+							}
+							//Modify datasheet if is necesary
+							if($datasheet_url != null){
+								echo "La datasheet url es: ".$datasheet_url."la id es: ".$_POST['id'];
+								$sql = "UPDATE material set ficha_tecnica = ? WHERE id = ?";
+								$stm = $con->prepare($sql);
+								$stm->bind_param("ss",$datasheet_url,$_POST['id']);
+								$stm->execute();
+								if($stm){
+									echo "Datasheet actualizada";
+								}
+
+								else{
+									echo "Error actualizando datasheet";
+								}
+
+							}
+							
+							echo "Modificando elementos";
+							$sql = "UPDATE material SET descripcion = ?, marca = ?, modelo = ?, cantidad = ?, habilitadas = ?, no_pieza = ?,  tipo_material = ?, laboratorio = ? WHERE id = ?";
+							$stm = $con->prepare($sql);
+							$stm->bind_param("sssiiiiis",$_POST['descripcion'],$_POST['marca'], $_POST['modelo'],$_POST['n_piezas'], $_POST['habilitadas'],$_POST['no_pieza'], $_POST['tipo_material'], $_POST['laboratorio'], $_POST['id']);
+							$stm->execute();
+							if($stm){
+								echo "Edición exitosa";
+							}
+
+							else{
+								echo "Error al actualizar datos";
+							}
+							
+						}
+
+						else{
+							echo "No existe el elemento que quieres modificar";
+						}
+
 					}
 					else if($option == "insert"){
 						echo "Insertando elementos";
-						$sql = "SELECT * from material where id = ?";
-						$stm = $con->prepare($sql);
-						$stm->bind_param("s",$_POST['id']);
-						$coincidence_number = checkItemId($stm);
 						if($coincidence_number == 0){
 							$sql = "INSERT INTO  material  (id ,  descripcion ,  marca ,  modelo ,  cantidad ,  habilitadas ,  no_pieza ,  img ,  ficha_tecnica ,  tipo_material ,  laboratorio ) VALUES ( ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?)";
 							$stm = $con->prepare($sql);
@@ -303,7 +360,36 @@
         $res_json = json_encode($res);
 		echo $res_json;
 		*/
-    }
+	}
+	
+	else if( $_SERVER['REQUEST_METHOD'] == "DELETE"){
+		$file = parse_str(file_get_contents("php://input"),$post_vars);
+		//print_r($post_vars);
+		$item = null;
+		foreach($post_vars as $key => $value){
+			$lines = explode("\r",explode("\n",$value)[2]);
+			$item = $lines[0];
+			//echo $item;
+			//echo $lines[2];
+		}
+		if($item != null){
+			$sql = "DELETE FROM material WHERE id = ?";
+			$stm = $con->prepare($sql);
+			$stm->bind_param("s",$item);
+			$stm->execute();
+			$obj = new StdClass();
+			if($stm){
+				$obj->message = "Elemento borrado";
+				$obj->item_deleted = $item;
+				echo json_encode($obj);
+			}
+
+			else{
+				$obj->error = "Error al borrar elemento";
+				echo json_encode($obj);
+			}
+		}
+	}
 
 	else{
 		//echo "Wrong request";
