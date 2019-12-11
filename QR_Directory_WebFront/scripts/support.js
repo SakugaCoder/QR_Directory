@@ -27,11 +27,13 @@ var item = null;
                         for(activity in response[sheet].activities){
                             estado = 1;
                             checked = "";
+                            color = "crimson";
                             if(response[sheet].activities[activity].terminada == 1){
                                 checked = "checked"
                                 estado = 0;
+                                color = "forestgreen";
                             }
-                            row += '<div class="activity">\
+                            row += '<div class="activity" style="background:'+color+'">\
                                     <p>ID: <b>'+response[sheet].activities[activity].id+'</b></p>\
                                     <p>Descripción: <b>'+response[sheet].activities[activity].descripcion+'</b></p>\
                                     <p>Fecha inicio: <b>'+response[sheet].activities[activity].fecha_inicio+'/b></p>\
