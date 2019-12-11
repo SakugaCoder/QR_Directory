@@ -15,6 +15,8 @@
 
 		$image_exists = false;
 		$datasheet_exists = false;
+
+		$response = new StdClass();
 		
 		//Check for image available
 		if(isset($_FILES['item_image'])){
@@ -87,10 +89,14 @@
 		&& isset($_POST['tipo_material']) ){
 			if($_POST['laboratorio'] == "0"){
 				echo "Error no llenaste laboratorio";
+				$response->error = "Error no llenaste laboratorio";
+				echo json_encode($response);
 			}
 
 			else if($_POST['tipo_material'] == "0"){
 				echo "Error no llenaste material";
+				$response->error = "Error no llenaste laboratorio";
+				echo json_encode($response);
 			}
 
 			else{
@@ -104,7 +110,7 @@
 				}
 
 				if($all_values_filled){
-					"Echo felizidades llenaste todos los campos";
+					echo "felizidades llenaste todos los campos";
 					echo "Has llenado todo incluyendo lab y kind";
 					$option = $_POST['insert_modify'];
 					$sql = "SELECT * from material where id = ?";
@@ -171,7 +177,7 @@
 						if($coincidence_number == 0){
 							$sql = "INSERT INTO  material  (id ,  descripcion ,  marca ,  modelo ,  cantidad ,  habilitadas ,  no_pieza ,  img ,  ficha_tecnica ,  tipo_material ,  laboratorio ) VALUES ( ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?)";
 							$stm = $con->prepare($sql);
-							//echo "SQL: ".$_POST['id'].$_POST['descripcion'].$_POST['marca'].$_POST['modelo'].intval($_POST['n_piezas']).intval($_POST['habilitadas']).intval($_POST['no_pieza']).$img_url.$datasheet_url.intval($_POST['tipo_material']).intval($_POST['laboratorio']);
+							echo "SQL: ".$_POST['id'].$_POST['descripcion'].$_POST['marca'].$_POST['modelo'].intval($_POST['n_piezas']).intval($_POST['habilitadas']).intval($_POST['no_pieza']).$img_url.$datasheet_url.intval($_POST['tipo_material']).intval($_POST['laboratorio']);
 							$stm->bind_param("ssssiiissii",$_POST['id'],$_POST['descripcion'],$_POST['marca'], $_POST['modelo'],$_POST['n_piezas'], $_POST['habilitadas'],$_POST['no_pieza'],$image_url,$datasheet_url, $_POST['laboratorio'], $_POST['tipo_material']);
 							$stm->execute();
 
@@ -186,6 +192,8 @@
 
 						else{
 							echo "Error. La id del material ya existe";
+							$response->error =" Error. El material ya existe";
+							echo json_encode($response);
 						}
 						
 						
@@ -194,12 +202,16 @@
 
 				else{
 					echo "No llenaste todos los campos";
+					$response->error = "Error. No llenaste todos los campos";
+					echo json_encode($response);
 				}
 			}
 		}
 
 		else{
 			echo "Error. No estan definidas algunas variables";
+			$response->error = "Error. No estan definidas algunas variables";
+			echo json_encode($response);
 		}
 
 		/*
@@ -242,7 +254,7 @@
 			$obj->laboratorio = $row['laboratorio'];
 			$main_obj->$item_title = $obj;
 			$counter += 1;
-			//echo $json_obj;
+			echo $json_obj;
 		}
 		*/
 	}
@@ -391,10 +403,112 @@
 		}
 	}
 
+	else if(isset($_POST['new_support_sheet'])){
+		$start_date = $_POST['fecha_inicio'];
+		$end_date = $_POST['fecha_termino'];
+		$item = $_POST['material'];
+		$active = 1;
+
+		$sql = "INSERT INTO hojas_mantenimiento (material, fecha_inicio, fecha_termino, activa) VALUES ( ?, ?, ?, ?)";
+		$stm = $con->prepare($sql);
+		$stm->bind_param("sssi",$item,$start_date,$end_date,$active);
+		$stm->execute();
+		if($stm){
+			$sql = "SELECT max(id) as ID FROM hojas_mantenimiento";
+			$stm->prepare($sql);
+			$stm->execute();
+			$res = $stm->get_result();
+			$row = $res->fetch_assoc();
+			echo $row['ID'];
+		}
+
+		else{
+			echo "error";
+		}
+	}
+
+	else if(isset($_POST['new_activity'])){
+		$description = $_POST['descripcion'];
+		$start_date = $_POST['fecha_inicio'];
+		$end_date = $_POST['fecha_termino'];
+		$finished = 0;
+		$support_sheet = $_POST['hoja_mantenimiento'];
+
+		$sql = "INSERT INTO actividades_mantenimiento (descripcion, fecha_inicio, fecha_termino, terminada, hoja_mantenimiento) VALUES ( ?, ?, ?, ?, ?)";
+		$stm = $con->prepare($sql);
+		$stm->bind_param("sssii",$description,$start_date,$end_date,$finished,$support_sheet);
+		$stm->execute();
+		if($stm){
+			echo "ok";
+		}
+
+		else{
+			echo "error";
+		}
+	}
+
+	else if(isset($_GET['support_sheet']) && isset($_GET['material'])){
+		$obj = new StdClass();
+		$item = $_GET['material'];
+		$sql = "SELECT * from hojas_mantenimiento WHERE material = ?";
+		$stm = $con->prepare($sql);
+		$stm->bind_param("s",$item);
+		$stm->execute();
+		$res = $stm->get_result();
+		$n_res = 0;
+		while( $row = $res->fetch_assoc()){
+			$item_name = "sheet_".$n_res;
+			$sheet = new StdCLass();
+			$sheet->id = $row['id'];
+			$sheet->fecha_inicio = $row['fecha_inicio'];
+			$sheet->fecha_termino = $row['fecha_termino'];
+			$sheet->activa = $row['activa'];
+
+			$sql2 = "SELECT * FROM actividades_mantenimiento WHERE hoja_mantenimiento = ?";
+			$stm2 = $con->prepare($sql2);
+			$stm2->bind_param("i",$sheet->id);
+			$stm2->execute();
+			$res2 = $stm2->get_result();
+			$n_res2 = 0;
+
+			$activities = new StdClass();
+			while($row2 = $res2->fetch_assoc()){
+				$act_name = "activity_".$n_res2;
+				$activity = new StdCLass();
+				$activity->id = $row2['id'];
+				$activity->descripcion = $row2['descripcion'];
+				$activity->fecha_inicio = $row2['fecha_inicio'];
+				$activity->fecha_termino = $row2['fecha_termino'];
+				$activity->terminada = $row2['terminada'];
+				$activities->$act_name = $activity;
+				$n_res2 = $n_res2 + 1;
+			}
+
+			if($n_res2 > 0){
+				$sheet->activities = $activities;
+			}
+			$sheet->n_activities = $n_res2;
+
+			$n_res = $n_res + 1;
+			$obj->$item_name = $sheet;
+		}
+
+		if($n_res > 0){
+			echo json_encode($obj);
+		}
+
+		else{
+			$obj = new StdClass();
+			$obj->error = "No hay sheets para mostrar";
+		}
+	}
+
 	else{
 		//echo "Wrong request";
 		$obj = new StdClass();
-		$obj->message = "error. Request is wrong!";
-		echo json_encode($obj);
+		$obj->error = "error. Request is wrong!";
+		//echo json_encode($obj);
 	}
+
+
 ?>

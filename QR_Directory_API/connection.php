@@ -7,4 +7,6 @@
 	if(!$con){
 		echo "Error";
 	}
+
+	$con->query("SET NAMES 'utf8'");
 ?>

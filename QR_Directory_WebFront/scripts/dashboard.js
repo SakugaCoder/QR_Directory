@@ -18,6 +18,7 @@ function startSearch(evt){
     console.log("Search value: "+search_value.value);
     console.log("Lab: ",lab.options[lab.selectedIndex].innerHTML);
     console.log("kind: "+kind.options[kind.selectedIndex].innerHTML);
+    document.querySelector(".result-section").innerHTML = "";
     let preloader = document.querySelector("#loader_container");
     preloader.style.display = "block";
     getItems(search_value.value,lab.selectedIndex,kind.selectedIndex,preloader);
@@ -93,9 +94,16 @@ function adminAction(evt){
             document.querySelector(".swal2-cancel").style.fontFamily = "Open Sans";
             $('#qrcode').qrcode({width: 150, height: 150, text: id.split('_')[0]});
         }
+
+        else{
+            console.log("Vamos a ver el mantenimiento de la pieza");
+            window.location.replace("support.html?item="+id.split("_")[0]);
+        }
     }
 
     else{
         window.location.replace("edit.html?item="+id.split("_")[0]);
     }
+
+
 }

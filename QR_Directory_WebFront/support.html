@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" href="./css/dashboard.css">
+    <link rel="stylesheet" href="./css/edit.css">
+    <title>Mantenimiento</title>
+</head>
+<body>
+    <header>
+        <div class="logo-container">
+                <img src="assets/logo.png" alt="QR Directory logo">
+                <h3>QR Directory</h3>
+        </div>
+        <div class="btn-container">
+            <a class="btn-regresar" href="dashboard.html">Regresar</a>
+
+
+            <div class="add-button-container">
+                <div id="add-button">
+                    <p>Añadir</p>
+                    <img src="./assets/iconfinder_sign-add_299068.png" alt="Icono añadir" width="40px" height="40px">
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="main-wraper">
+
+    </div>
+
+	<footer>
+        <p class="footer-text">2019. QR <b>Directory</b></p>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="./assets/plugins/jquery.qrcode.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="./scripts/qrdirectory.js"></script>
+    <script src="./scripts/support.js"></script>
+    <script>
+        document.querySelector("#add-button").addEventListener("click",function(){
+            window.location.replace('new_support.html?item='+item);
+        });
+    </script>
+</body>
+</html>

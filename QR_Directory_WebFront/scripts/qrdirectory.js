@@ -118,25 +118,28 @@ function validateLogin(area){
 
 function showQueryResults(contaier,descripcion,marca,modelo,id,img){
     console.log("Showing results");
-        contaier.innerHTML += "<div class='item-container' style='margin-top:30px'>\
-                <div class='image' id='"+id+"-image'></div>\
-                    <div class='item-data'>\
-                        <div class='general-data'>\
-                            <span><p class='description'>"+descripcion+"</p><p class='brand'>"+marca+"</p> <p class='model'>"+modelo+"</p></span>\
+    contaier.innerHTML += "<div class='item-container' style='margin-top:30px'>\
+            <div class='image' id='"+id+"-image'></div>\
+                <div class='item-data'>\
+                    <div class='general-data'>\
+                        <span><p class='description'>"+descripcion+"</p><p class='brand'>"+marca+"</p> <p class='model'>"+modelo+"</p></span>\
+                    </div>\
+                    <div class='actions'>\
+                        <div class='edit-option'>\
+                            <img src='./assets/icons8-edit-80.png' alt='Icono editar' width='20px' height='20px' id='"+id+"_modify' onclick='adminAction(event)'>\
                         </div>\
-                        <div class='actions'>\
-                            <div class='edit-option'>\
-                                <img src='./assets/icons8-edit-80.png' alt='Icono editar' width='20px' height='20px' id='"+id+"_modify' onclick='adminAction(event)'>\
-                            </div>\
-                            <div class='generate-qr-option'>\
-                                <img src='./assets/icons8-qr-code-96.png' alt='Icono generar codigo qr' width='20px' height='20px' id='"+id+"_gqr' onclick='adminAction(event)'>\
-                            </div>\
-                            <div class='delete-option'>\
-                                <img src='./assets/icons8-delete-80.png' alt='Icono borrar' width='20px' height='20px' id='"+id+"_delete' onclick='adminAction(event)'>\
-                            </div>\
+                        <div class='generate-qr-option'>\
+                            <img src='./assets/icons8-qr-code-96.png' alt='Icono generar codigo qr' width='20px' height='20px' id='"+id+"_gqr' onclick='adminAction(event)'>\
+                        </div>\
+                        <div class='delete-option'>\
+                            <img src='./assets/icons8-delete-80.png' alt='Icono borrar' width='20px' height='20px' id='"+id+"_delete' onclick='adminAction(event)'>\
+                        </div>\
+                        <div class='support-option'>\
+                            <img src='./assets/icons8-data-sheet-40.png' alt='Icono mantenimiento' width='20px' height='20px' id='"+id+"_support' onclick='adminAction(event)'>\
                         </div>\
                     </div>\
-                </div>";
+                </div>\
+            </div>";           
     var item_image = document.querySelector("#"+id+"-image");
     id = id.split("-")[0] + "-"+id.split("-")[2];
     console.log("new id"+id);   
@@ -183,4 +186,35 @@ function deleteItem(item){
     };
     XMLHttp.open("DELETE",api_url,true);
     XMLHttp.send(fd);
+}
+
+function getNavQuery(){
+    args = location.search.substr(1);
+    console.log("Args length:"+args.length);
+    if(args.length > 0){
+        console.log(args.substr(0,4));
+        if(args.substr(0,4) == "item"){
+            if(args.substr(5) != ""){
+                item = args.substr(5)
+                console.log(item);
+                //displaySupportSheets(item);
+                return item;
+            }
+
+            else{
+                /*
+                $('.dropify').dropify();
+                $('.dropify-2').dropify();
+                alert("No se ha especificado elemento");
+                document.querySelector("#insert_modify").value = "insert";
+                */
+                window.location.replace("dashboard.html");
+            }
+            
+        }
+    }
+
+    else{
+        return null;
+    }
 }
