@@ -500,6 +500,24 @@
 		else{
 			$obj = new StdClass();
 			$obj->error = "No hay sheets para mostrar";
+			echo json_encode($obj);
+		}
+	}
+
+
+	else if(isset($_POST['change_act_status'])){
+		$id = $_POST['id'];
+		$status = $_POST['to'];
+		$sql = "UPDATE actividades_mantenimiento SET terminada = ? WHERE id = ?";
+		$stm = $con->prepare($sql);
+		$stm->bind_param("ii",$status,$id);
+		$stm->execute();
+		if($stm){
+			echo "ok";
+		}
+
+		else{
+			echo "error";
 		}
 	}
 
@@ -509,6 +527,4 @@
 		$obj->error = "error. Request is wrong!";
 		//echo json_encode($obj);
 	}
-
-
 ?>
