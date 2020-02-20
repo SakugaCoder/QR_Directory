@@ -21,7 +21,7 @@
         //If username and password are complete then try to login with these credentials
         if(username != "" && pswd != ""){
             console.log("Usuario y pswd completado");
-            logIng(form_data);
+            logIn(form_data);
         }
 
         //If password or username are imcomplete then

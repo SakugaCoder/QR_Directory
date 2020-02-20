@@ -1,7 +1,7 @@
 <?php
 	$host = "localhost";
 	$user = "root";
-	$pswd = "";
+	$pswd = "1234";
 	$db = "materiales";
 	$con = mysqli_connect($host,$user,$pswd,$db);
 	if(!$con){

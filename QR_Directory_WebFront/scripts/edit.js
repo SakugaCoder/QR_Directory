@@ -27,6 +27,9 @@
 		}
 
 		else{
+			console.log("Se va a crear un nuevo elemento");
+			document.querySelector("#insert_modify").value = "insert";
+			document.querySelector("#id").removeAttribute("disabled");
 			$('.dropify').dropify({
 			    tpl: {
 			        wrap:            '<div class="dropify-wrapper"></div>',
@@ -60,9 +63,6 @@
 			    	console.log("There is a file in the input");
 			    }
 			});
-			console.log("Se va a crear un nuevo elemento");
-			document.querySelector("#insert_modify").value = "insert";
-			document.querySelector("#id").removeAttribute("disabled");
 		}
 	}
 }());
@@ -104,7 +104,6 @@ function getItem(item){
                     let laboratorio = items[item].laboratorio;
                     let marca = items[item].marca;
                     let modelo = items[item].modelo;
-                    let no_pieza = items[item].no_pieza;
                     let nombre = items[item].nombre;
                     let tipo_material = items[item].tipo_material;
 
@@ -114,8 +113,10 @@ function getItem(item){
                     edit_form.modelo.value = modelo;
                     edit_form.n_piezas.value = cantidad;
                     edit_form.habilitadas.value = habilitadas;
-                    edit_form.no_pieza.value = no_pieza;
-                    edit_form.id.value = id;
+					edit_form.id.value = id;
+
+					console.log("Lab: "+laboratorio);
+					console.log("Tipo material: "+tipo_material);
 
                     edit_form.laboratorio.selectedIndex = Number(laboratorio);
                     edit_form.tipo_material.selectedIndex = Number(tipo_material);

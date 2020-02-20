@@ -1,8 +1,8 @@
-<?php
+<?php 
 	require_once('connection.php'); 
 	require_once('DBFunctions.php');
 	header("Content-Type: application/json");
-
+	
 	//Si se va a insertar o modificar
 	if(isset($_POST['insert_modify'])){
 		$uploads_dir = "assets/";
@@ -84,9 +84,8 @@
 
 		if(isset($_POST['id']) && isset($_POST['descripcion'])
 		&& isset($_POST['marca']) && isset($_POST['modelo'])
-		&& isset($_POST['n_piezas']) && isset($_POST['habilitadas'])
-		&& isset($_POST['no_pieza']) && isset($_POST['laboratorio'])
-		&& isset($_POST['tipo_material']) ){
+		&& isset($_POST['n_piezas']) && isset($_POST['habilitadas']) 
+		&& isset($_POST['laboratorio']) && isset($_POST['tipo_material']) ){
 			if($_POST['laboratorio'] == "0"){
 				echo "Error no llenaste laboratorio";
 				$response->error = "Error no llenaste laboratorio";
@@ -110,7 +109,7 @@
 				}
 
 				if($all_values_filled){
-					echo "felizidades llenaste todos los campos";
+					echo "felicidadez llenaste todos los campos";
 					echo "Has llenado todo incluyendo lab y kind";
 					$option = $_POST['insert_modify'];
 					$sql = "SELECT * from material where id = ?";
@@ -138,7 +137,7 @@
 							//Modify datasheet if is necesary
 							if($datasheet_url != null){
 								echo "La datasheet url es: ".$datasheet_url."la id es: ".$_POST['id'];
-								$sql = "UPDATE material set ficha_tecnica = ? WHERE id = ?";
+								$sql = "UPDATE material set ruta_manual = ? WHERE id = ?";
 								$stm = $con->prepare($sql);
 								$stm->bind_param("ss",$datasheet_url,$_POST['id']);
 								$stm->execute();
@@ -153,9 +152,9 @@
 							}
 							
 							echo "Modificando elementos";
-							$sql = "UPDATE material SET descripcion = ?, marca = ?, modelo = ?, cantidad = ?, habilitadas = ?, no_pieza = ?,  tipo_material = ?, laboratorio = ? WHERE id = ?";
+							$sql = "UPDATE material SET descripcion = ?, marca = ?, modelo = ?, cantidad = ?, habilitadas = ?,  tipo_material = ?, laboratorio = ? WHERE id = ?";
 							$stm = $con->prepare($sql);
-							$stm->bind_param("sssiiiiis",$_POST['descripcion'],$_POST['marca'], $_POST['modelo'],$_POST['n_piezas'], $_POST['habilitadas'],$_POST['no_pieza'], $_POST['tipo_material'], $_POST['laboratorio'], $_POST['id']);
+							$stm->bind_param("sssiiiis",$_POST['descripcion'],$_POST['marca'], $_POST['modelo'],$_POST['n_piezas'], $_POST['habilitadas'], $_POST['tipo_material'], $_POST['laboratorio'], $_POST['id']);
 							$stm->execute();
 							if($stm){
 								echo "Edición exitosa";
@@ -175,12 +174,12 @@
 					else if($option == "insert"){
 						echo "Insertando elementos";
 						if($coincidence_number == 0){
-							$sql = "INSERT INTO  material  (id ,  descripcion ,  marca ,  modelo ,  cantidad ,  habilitadas ,  no_pieza ,  img ,  ficha_tecnica ,  tipo_material ,  laboratorio ) VALUES ( ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?)";
+							$sql = "INSERT INTO  material  (id ,  descripcion ,  marca ,  modelo ,  cantidad ,  habilitadas,  img ,  ruta_manual ,  tipo_material ,  laboratorio, hoja_mantenimiento ) VALUES ( ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?)";
 							$stm = $con->prepare($sql);
-							echo "SQL: ".$_POST['id'].$_POST['descripcion'].$_POST['marca'].$_POST['modelo'].intval($_POST['n_piezas']).intval($_POST['habilitadas']).intval($_POST['no_pieza']).$img_url.$datasheet_url.intval($_POST['tipo_material']).intval($_POST['laboratorio']);
-							$stm->bind_param("ssssiiissii",$_POST['id'],$_POST['descripcion'],$_POST['marca'], $_POST['modelo'],$_POST['n_piezas'], $_POST['habilitadas'],$_POST['no_pieza'],$image_url,$datasheet_url, $_POST['laboratorio'], $_POST['tipo_material']);
+							$hoja_mantenimiento = null;
+							//echo "SQL: ".$_POST['id'].$_POST['descripcion'].$_POST['marca'].$_POST['modelo'].intval($_POST['n_piezas']).intval($_POST['habilitadas']).$img_url.$datasheet_url.intval($_POST['tipo_material']).intval($_POST['laboratorio']);
+							$stm->bind_param("ssssiissiii",$_POST['id'],$_POST['descripcion'],$_POST['marca'], $_POST['modelo'],$_POST['n_piezas'], $_POST['habilitadas'],$image_url,$datasheet_url, $_POST['tipo_material'],  $_POST['laboratorio'],$hoja_mantenimiento);
 							$stm->execute();
-
 							if($stm){
 								echo "Insertado correctamente";
 							}
@@ -229,34 +228,6 @@
 		$stm = $con->prepare($sql);
 		$stm->bind_param("s",$_GET['item']);
 		echo json_encode(getItems($stm));
-		/*
-		$connection = $con;
-		$item = $_GET['item'];
-		$sql = "SELECT * from material WHERE id=?";
-		$stm = $connection->prepare($sql);
-		$stm->bind_param("s",$_GET['item']);
-		$stm->execute();
-		$res = $stm->get_result();
-		$main_obj = new StdClass();
-		$counter = 0;
-		while($row = $res->fetch_assoc()){
-			$item_title = "item_".$counter;
-			$obj = new stdClass();
-			$obj->nombre = $row['descripcion'];
-			$obj->marca = $row['marca'];
-			$obj->modelo = $row['modelo'];
-			$obj->cantidad = $row['cantidad'];
-			$obj->habilitadas = $row['habilitadas'];
-			$obj->no_pieza = $row['no_pieza'];
-			$obj->img = $row['img'];
-			$obj->ficha_tecnica = $row['ficha_tecnica'];
-			$obj->tipo_material = $row['tipo_material'];
-			$obj->laboratorio = $row['laboratorio'];
-			$main_obj->$item_title = $obj;
-			$counter += 1;
-			echo $json_obj;
-		}
-		*/
 	}
 
 	else if(isset($_GET['search_value']) && isset($_GET['lab']) && isset($_GET['kind'])){

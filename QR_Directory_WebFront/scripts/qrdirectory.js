@@ -1,120 +1,50 @@
-api_url = "http://localhost/QR_Directory/QR_Directory_API/api.php";
+API_URL = "http://localhost/QR_Directory/QR_Directory_API/";
+API_NAME = "api.php";
+LOGIN_NAME = "login.php";
 
 (function(){
     console.log("Logged value:");
     console.log(localStorage.getItem("logged"));
 }());
 
+function QRDirectoryAPI(url, params = null, method, _data, callback){
+
+    let XMLHttp = new XMLHttpRequest();
+    XMLHttp.onreadystatechange = function(){
+        if(XMLHttp.status == 200 && XMLHttp.readyState == 4){
+            callback(XMLHttp.responseText);
+        }
+    };
+
+    params != null ? XMLHttp.open(method,url + params, true) : XMLHttp.open(method,url,true);
+    _data != null ? XMLHttp.send(_data) : XMLHttp.send();
+}
+
 function closeSession(){
     localStorage.setItem("logged",false);
     window.location.replace("login.html");
 }
 
-function logIng(form_data){
-    var XMLHttp = new XMLHttpRequest();
-    XMLHttp.onreadystatechange = function(){
-                if(this.readyState == 4 && this.status == 200){
-                    console.log("Respuesta recibida");
-                    console.log(this.responseText);
-                    if(this.responseText == "true"){
-                        alert("Vas a ser redirigido");
-                        localStorage.setItem("logged",true);
-                        window.location.replace("dashboard.html");
-                    }
-
-                    else if(this.responseText == "false"){
-                        localStorage.setItem("logged",false);
-                    }
-
-                    else{
-                        document.querySelector(".error-container").innerHTML = "<p>Error. Usuario o contraseña incorrectos</p>";
-                    }
-                }
-            };
-
-            XMLHttp.open("POST","http://localhost/QR_Directory/QR_Directory_API/login.php",true);
-            XMLHttp.send(form_data);
+function logIn(fd){
+    QRDirectoryAPI(API_URL + LOGIN_NAME , null, "POST", fd, responseLogIn);
 }
 
-function getItems(search_value,lab,kind,preloader){
-    var fd = new FormData();
-    console.log("Search value: "+search_value);
-    console.log("Lab: "+lab);
-    console.log("Kind: "+kind);
-    var XMLHttp = new XMLHttpRequest();
-    XMLHttp.onreadystatechange = function() {
-        console.log("State ready change");
-        if(this.readyState == 4 && this.status == 200){
-            console.log("Respuesta recibida");
-            console.log(JSON.parse(this.responseText));
-            var items = JSON.parse(this.responseText);
-            container = document.querySelector(".result-section");
-            container.innerHTML = "";
-            if(items.error){
-                console.log(items.error);
-                Swal.fire({
-                  icon: 'error',
-                  title: 'Lo siento!',
-                  text: items.error,
-                });
-            }
-            else{
-                for(item in items){
-                    id = items[item].id;
-                    cantidad = items[item].cantidad;
-                    ficha_tecnica = items[item].ficha_tecnica;
-                    habilitadas = items[item].habilitadas;
-                    img = items[item].img;
-                    laboratorio = items[item].laboratorio;
-                    marca = items[item].marca;
-                    modelo = items[item].modelo;
-                    no_pieza = items[item].no_pieza;
-                    nombre = items[item].nombre;
-                    tipo_material = items[item].tipo_material;
-                    showQueryResults(container,nombre,marca,modelo,id,img);
-                }
-            }
-
-            preloader.style.display = "none";
-        }
-    };
-
-    XMLHttp.open("GET","http://localhost/QR_Directory/QR_Directory_API/api.php?search_value="+search_value+"&lab="+lab+"&kind="+kind,true);
-    XMLHttp.send();
-}
-
-function modifyItem(){
-
-}
-
-function validateLogin(area){
-    var logged = localStorage.getItem("logged");
-
-    if(area == "login"){
-        console.log("Login verify");
-        if(logged == "true"){
-            alert("Ya estas logeado vas a ser redirigido");
-            window.location.replace("dashboard.html");
-        }
-
-        else if(logged = "false"){
-            console.log("No has iniciado sesion en login");
-        }
+function responseLogIn(response){
+    if(response == "true"){
+        alert("Vas a ser redirigido");
+        localStorage.setItem("logged",true);
+        window.location.replace("dashboard.html");
     }
 
-    else if(area == "admin"){
-        console.log("Admin verify");
-        if( logged == "false"){
-            alert("No estas logeado vas a ser redirigido");
-            window.location.replace("login.html");
-        }
-
-        else if( logged == "true"){
-            console.log("Ya has iniciado sesion");
-        }
+    else if(response == "false"){
+        localStorage.setItem("logged",false);
     }
 
+    else{
+        document.querySelector(".error-container").innerHTML = "<p>Error. Usuario o contraseña incorrectos</p>";
+    }
 }
+
 
 function showQueryResults(contaier,descripcion,marca,modelo,id,img){
     console.log("Showing results");
@@ -140,13 +70,21 @@ function showQueryResults(contaier,descripcion,marca,modelo,id,img){
                     </div>\
                 </div>\
             </div>";           
-    var item_image = document.querySelector("#"+id+"-image");
-    id = id.split("-")[0] + "-"+id.split("-")[2];
-    console.log("new id"+id);   
-    item_image.style.background = "url('http://localhost/QR_Directory/QR_Directory_API/"+img+"')";
-    item_image.style.backgroundSize = "70% 70%";
-    item_image.style.backgroundPosition = "center",
-    item_image.style.backgroundRepeat = "no-repeat";
+    
+    let item_image = null;
+    try{
+        let item_image = document.querySelector("#"+id+"-image");
+        id = id.split("-")[0] + "-"+id.split("-")[2];
+        console.log("new id"+id);   
+        item_image.style.background = "url('http://localhost/QR_Directory/QR_Directory_API/"+img+"')";
+        item_image.style.backgroundSize = "70% 70%";
+        item_image.style.backgroundPosition = "center",
+        item_image.style.backgroundRepeat = "no-repeat";
+    }
+
+    catch(exception){
+        console.log("Error loading image");
+    }
 }
 
 function deleteItem(item){
@@ -155,37 +93,46 @@ function deleteItem(item){
     fd.append("item",item);
     console.log("El item es: "+item);
     console.log("api url "+api_url);
+
+    QRDirectoryAPI(API_URL + API_NAME,null,"DELETE",fd,responseDeleteItem);
+
+    /*
     let XMLHttp = new XMLHttpRequest();
     XMLHttp.onreadystatechange = function() {
         if(XMLHttp.status == 200 && XMLHttp.readyState == 4){
-            console.log("respuesta recibida");
-            console.log(XMLHttp.responseText);
-            let res = JSON.parse(XMLHttp.responseText);
-            if(res.error){
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Oops...',
-                    text: res.error,
-                  });
-            }
-            else{
 
-
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Acción completada correctamente',
-                    text: res.message,
-                    footer: res.item_deleted
-                  }).then( (accepted) => {
-                      if(accepted){
-                        document.querySelector(".search-bar img").click()
-                      }
-                  });
-            }
         }
     };
     XMLHttp.open("DELETE",api_url,true);
     XMLHttp.send(fd);
+    */
+}
+
+function responseDeleteItem(resonse){
+    console.log("respuesta recibida");
+    console.log(response);
+    let res = JSON.parse(response);
+    if(res.error){
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: res.error,
+          });
+    }
+    else{
+
+
+        Swal.fire({
+            icon: 'success',
+            title: 'Acción completada correctamente',
+            text: res.message,
+            footer: res.item_deleted
+          }).then( (accepted) => {
+              if(accepted){
+                document.querySelector(".search-bar img").click()
+              }
+          });
+    }
 }
 
 function getNavQuery(){
@@ -216,5 +163,40 @@ function getNavQuery(){
 
     else{
         return null;
+    }
+}
+
+function validateLogin(area){
+    var logged = localStorage.getItem("logged");
+    if(logged){
+        if(area == "login"){
+            console.log("Login verify");
+            if(logged == "true"){
+                alert("Ya estas logeado vas a ser redirigido");
+                window.location.replace("dashboard.html");
+            }
+    
+            else if(logged = "false"){
+                console.log("No has iniciado sesion en login");
+            }
+        }
+    
+        else if(area == "admin"){
+            console.log("Admin verify");
+            if( logged == "false"){
+                alert("No estas logeado vas a ser redirigido");
+                window.location.replace("login.html");
+            }
+    
+            else if( logged == "true"){
+                console.log("Ya has iniciado sesion");
+            }
+        }
+    }
+
+
+    else if(area == "admin"){
+        alert("Lo siento no has hecho nada :(");
+        window.location.replace("login.html");
     }
 }

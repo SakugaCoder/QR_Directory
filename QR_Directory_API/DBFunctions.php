@@ -41,9 +41,8 @@
 			$obj->modelo = $row['modelo'];
 			$obj->cantidad = $row['cantidad'];
 			$obj->habilitadas = $row['habilitadas'];
-			$obj->no_pieza = $row['no_pieza'];
 			$obj->img = $row['img'];
-			$obj->ficha_tecnica = $row['ficha_tecnica'];
+			$obj->ficha_tecnica = $row['ruta_manual'];
 			$obj->tipo_material = $row['tipo_material'];
 			$obj->laboratorio = $row['laboratorio'];
 			$main_obj->$item_title = $obj;
