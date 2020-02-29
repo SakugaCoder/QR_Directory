@@ -21,23 +21,6 @@
     </header>
 
     <div class="main-wraper">
-        <h1 style="text-align:center">Hoja mantenimiento (Checklist) para <i>OCD-001</i></h1>
-		
-		<div class="detalle-actividad-mantenimiento">
-			<label for="anio-ficha-mantenimiento">Año ficha de mantenimiento</label>
-			<input type="number" name="anio-ficha-mantenimiento" id="anio-ficha-mantenimiento" placeholder="2020">
-			<label for="semana-mantenimiento">Semana Mantenimiento</label>
-			<input type="text" name="semana-mantenimiento" id="semana-mantenimiento" placeholder="2020-02-01 - 2020-02-08">
-			<label for="nombre-actividad">Nombre revisión</label>
-			<textarea name="nombre-actividad" id="nombre-actividad" placeholder="Equipo funcionando correctamente"></textarea>
-			<label for="comentarios">Comentarios</label>
-			<input type="text" name="comentarios" id="comentarios" placeholder="El quipo se encontraba con daños">
-			<label for="revizo">Revizó</label>
-			<input type="text" name="revizo" id="revizo" placeholder="Jaime">
-			<button id="crear-actividad-revision" onclick="crearActividad()">Crear actividad</button>
-		</div>
-
-
 		<div class="actividades-mantenimiento">
 			<table id="tabla-actividades-mantenimiento">
 				<thead>
@@ -64,6 +47,7 @@
 		</div>
 	</div>
 
+	<a href="#" id="btnCrearCheckList">Crear nueva checklist</a>
 	<footer>
         <p class="footer-text">2019. QR <b>Directory</b></p>
     </footer>
@@ -86,33 +70,37 @@
 			background: #2d2d2d;
 			text-align: center;
 		}
+
+		#btnCrearCheckList{
+			display: block;
+			max-width: 300px;
+			width: 100%;
+			margin: auto;
+			padding: 20px 0px;
+			border: none;
+			border-radius: 20px;
+			background: #ff688c;
+			color: #fff;
+			transition: all ease 0.2s;
+			text-decoration: none;
+			text-align: center;
+		}
+		
+		#btnCrearCheckList:hover{
+			opacity: 0.6;
+			cursor: pointer;
+		}
     </style>
 
     <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
     <script type="text/javascript" src="./assets/plugins/jquery.qrcode.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-    <script src="./scripts/qrdirectory.js"></script>
+	<script src="./scripts/qrdirectory.js"></script>
+	<script src="./scripts/mantenimiento.js"></script>
 
     <script>
-	function crearActividad(){
-		let tabla_mantenimientos = document.querySelector("#tabla-actividades-mantenimiento tbody");
-		let anio_ficha_mantenimiento = document.querySelector("#anio-ficha-mantenimiento").value;
-		let semana_manteinimeinto = document.querySelector("#semana-mantenimiento").value;
-		let nombre_actividad = document.querySelector("#nombre-actividad").value;
-		let comentarios = document.querySelector("#comentarios").value;
-		let revizo = document.querySelector("#revizo").value;
 
-		let row = '<tr>\
-					<td>'+anio_ficha_mantenimiento+'</td>\
-					<td>'+nombre_actividad+'</td>\
-					<td>'+semana_manteinimeinto+'</td>\
-					<td>'+comentarios+'</td>\
-					<td>'+revizo+'</td>\
-					<td><input type="checkbox" name="" id=""></td>\
-				</tr>';
-		tabla_mantenimientos.innerHTML += row;
-	}
 
 	function regresar(){
 		window.location.replace("dashboard.html");

@@ -1,19 +1,28 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta http-equiv="Content-type" content="text/html; charset=utf-8">
-    <link rel="stylesheet" href="./css/dashboard.css">
-    <link rel="stylesheet" href="./css/edit.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./scss/dashboard.css">
+    <link rel="stylesheet" href="./scss/new_support.css">
+    <link rel="stylesheet" type="text/css" href="https://uicdn.toast.com/tui-calendar/latest/tui-calendar.css" />
+    <link rel="stylesheet" type="text/css" href="https://uicdn.toast.com/tui.time-picker/latest/tui-time-picker.css">
+    <link rel="stylesheet" type="text/css" href="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.css">
+    <link rel="stylesheet" href="assets/tui.calendar/examples/css/default.css">
+    <link rel="stylesheet" href="assets/tui.calendar/examples/css/icons.css">
+
     <title>Nueva ficha de mantenimiento</title>
 </head>
+
 <body>
     <header>
         <div class="logo-container">
-                <img src="assets/logo.png" alt="QR Directory logo">
-                <h3>QR Directory</h3>
+            <img src="assets/logo.png" alt="QR Directory logo">
+            <h3>QR Directory</h3>
         </div>
         <div class="btn-container">
             <a class="btn-regresar" href="#" onclick="regresar(event)">Regresar</a>
@@ -21,206 +30,177 @@
     </header>
 
     <div class="main-wraper">
+        <h2 style="text-align: center; font-weight: normal; font-size: 20px; margin-bottom: 20px;">Hoja de mantenimiento
+            para<br><b id="item_value"></b></h2>
+
         <div class="item-data">
             <form action="" method="POST" onsubmit="createSchedule(event)" id="edit-form">
-                    <div class="general-data">    
-                        <h2 style="text-align: center; font-weight: normal; font-size: 20px; margin-bottom: 20px;">Nueva ficha tecnica para <b id="item_value"></b></h2>
-                        <input type="hidden" name="id" value="noid">
-
-                        <div class="field">
-                                <label for="f_inicio">Fecha inicio: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
-                                <input type="date" name="f_inicio" id="f_inicio" placeholder="Fecha inicio">
+                <div class="activity-list">
+                    <h3 class="text-center">SELECCIONA O CREA UNA LISTA DE ACTIVIDADES</h3>
+                </div>
+                <div class="btn-container">
+                    <div class="add-button-container">
+                        <div id="add-button" onclick="window.location.replace('edit.html');">
+                            <p>Añadir</p>
+                            <img src="./assets/iconfinder_sign-add_299068.png" alt="Icono añadir" width="40px"
+                                height="40px">
                         </div>
-                        <br>
-
-                        <div class="field">
-                                <label for="f_termino">Fecha termino: &nbsp;&nbsp;&nbsp;&nbsp;</label>
-                                <input type="date" name="f_termino" id="f_termino" placeholder="Fecha termino">
-                        </div>
-
-                        <div class="field">
-                                <label for="n_act">Numero actividades: </label>
-                                <input type="number" name="n_act" id="n_act" placeholder="Numero actividades">
-                        </div>
-
                     </div>
-    
-                    <input type="submit" name="btn_save" id="btn_save" value="Crear">
+                </div>
+
+                <!-- This is the list of all the activity list (you need to make a request and then display it-->
+                <div class="activity-lists">
+                    <div class="activity-list">
+                        <input type="radio" name="as" id="al1">
+                        <label for="al1">
+
+                            <div class="activity-content al1">
+                                <h2 class="activity-list-name">Actividades equipo</h2>
+                                <ul class="activities">
+                                    <li>Tapa de contenedor de refrigerante se encuentra en buenas condiciones</li>
+                                    <li>Contenedor cuenta con refrigerante a nivel</li>
+                                    <li>Contenedor de refrigerante se encuentra limpio</li>
+                                    <li>Parte exterior de maquina limpio</li>
+                                </ul>
+                            </div>
+                    </div>
+
+
+                    <div class="activity-list">
+                        <input type="radio" name="as" id="al2">
+                        <label for="al2">
+
+                            <div class="activity-content al1">
+                                <h2 class="activity-list-name">Actividades maquinaria</h2>
+                                <ul class="activities">
+                                    <li>Tapa de contenedor de refrigerante se encuentra en buenas condiciones</li>
+                                    <li>Contenedor cuenta con refrigerante a nivel</li>
+                                    <li>Contenedor de refrigerante se encuentra limpio</li>
+                                    <li>Parte exterior de maquina limpio</li>
+                                </ul>
+                            </div>
+                    </div>
+                    </label>
+                </div>
+
+                <div class="check-date">
+                    <div id="right">
+                        <div id="menu">
+                            <span class="dropdown">
+                                <button id="dropdownMenu-calendarType" class="btn btn-default btn-sm dropdown-toggle"
+                                    type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                    <i id="calendarTypeIcon" class="calendar-icon ic_view_month"
+                                        style="margin-right: 4px;"></i>
+                                    <span id="calendarTypeName">Dropdown</span>&nbsp;
+                                    <i class="calendar-icon tui-full-calendar-dropdown-arrow"></i>
+                                </button>
+                                <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu-calendarType">
+                                    <li role="presentation">
+                                        <a class="dropdown-menu-title" role="menuitem" data-action="toggle-daily">
+                                            <i class="calendar-icon ic_view_day"></i>Daily
+                                        </a>
+                                    </li>
+                                    <li role="presentation">
+                                        <a class="dropdown-menu-title" role="menuitem" data-action="toggle-weekly">
+                                            <i class="calendar-icon ic_view_week"></i>Weekly
+                                        </a>
+                                    </li>
+                                    <li role="presentation">
+                                        <a class="dropdown-menu-title" role="menuitem" data-action="toggle-monthly">
+                                            <i class="calendar-icon ic_view_month"></i>Month
+                                        </a>
+                                    </li>
+                                    <li role="presentation">
+                                        <a class="dropdown-menu-title" role="menuitem" data-action="toggle-weeks2">
+                                            <i class="calendar-icon ic_view_week"></i>2 weeks
+                                        </a>
+                                    </li>
+                                    <li role="presentation">
+                                        <a class="dropdown-menu-title" role="menuitem" data-action="toggle-weeks3">
+                                            <i class="calendar-icon ic_view_week"></i>3 weeks
+                                        </a>
+                                    </li>
+                                    <li role="presentation" class="dropdown-divider"></li>
+                                    <li role="presentation">
+                                        <a role="menuitem" data-action="toggle-workweek">
+                                            <input type="checkbox" class="tui-full-calendar-checkbox-square"
+                                                value="toggle-workweek" checked>
+                                            <span class="checkbox-title"></span>Show weekends
+                                        </a>
+                                    </li>
+                                    <li role="presentation">
+                                        <a role="menuitem" data-action="toggle-start-day-1">
+                                            <input type="checkbox" class="tui-full-calendar-checkbox-square"
+                                                value="toggle-start-day-1">
+                                            <span class="checkbox-title"></span>Start Week on Monday
+                                        </a>
+                                    </li>
+                                    <li role="presentation">
+                                        <a role="menuitem" data-action="toggle-narrow-weekend">
+                                            <input type="checkbox" class="tui-full-calendar-checkbox-square"
+                                                value="toggle-narrow-weekend">
+                                            <span class="checkbox-title"></span>Narrower than weekdays
+                                        </a>
+                                    </li>
+                                </ul>
+                            </span>
+                            <span id="menu-navi">
+                                <button type="button" class="btn btn-default btn-sm move-today"
+                                    data-action="move-today">Today</button>
+                                <button type="button" class="btn btn-default btn-sm move-day" data-action="move-prev">
+                                    <i class="calendar-icon ic-arrow-line-left" data-action="move-prev"></i>
+                                </button>
+                                <button type="button" class="btn btn-default btn-sm move-day" data-action="move-next">
+                                    <i class="calendar-icon ic-arrow-line-right" data-action="move-next"></i>
+                                </button>
+                            </span>
+                            <span id="renderRange" class="render-range"></span>
+                        </div>
+                        <div id="calendar"></div>
+                    </div>
+                </div>
+
+                <div class="asign-to-all">
+                    <h4 class="display-4">Asignar al resto </h4>
+                    <input type="checkbox" name="" id="">
+                </div>
+                <input type="submit" name="btn_save" id="btn_save" value="Crear checklist">
             </form>
         </div>
 
-        <table id="table_activities" style="display: none;">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Descripción actividad</th>
-                        <th>Fecha inicio</th>
-                        <th>Fecha terminó</th>
-                    </tr>
-                </thead>
-    
-                <tbody>
-                </tbody>
-            </table>
     </div>
 
-	<footer>
+    <footer>
         <p class="footer-text">2019. QR <b>Directory</b></p>
     </footer>
 
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
     <script type="text/javascript" src="./assets/plugins/jquery.qrcode.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script src="./scripts/qrdirectory.js"></script>
     <script src="./scripts/new_support.js"></script>
 
-    <style>
-        #table_activities{
-            display: block;
-            max-width: 700px;
-            width: 100%;
-            margin: 40px auto;
-            box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-            padding: 20px;
-        }
-
-
-        #table_activities tbody tr, #table_activities thead tr{
-            width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: space-around;
-        }
-        
-        input[type="submit"]{
-            font-weight: lighter;
-            display: block;
-            max-width: 160px;
-            width: 100%;
-            max-height: 66px;
-            height: 100%;
-            margin: 0px auto;
-            background: none;
-            color: #fff;
-            border: 2px solid #FFFFFF;
-            box-sizing: border-box;
-            border-radius: 20px;
-            transition: all ease 0.2s;
-            padding: 15px 30px;
-            box-shadow: 0px 4px 4px rgba(0, 0, 0, 0);
-            border-color: #000;
-            color: #000;
-        }
-
-        input[type="submit"]:hover{
-            cursor: pointer;
-            background: #9e3549;
-            border-color: #9e3549;
-            color: #fff;
-            box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); 
-        }
-
-    </style>
-
-    <script>
-        let fi = null;
-        let ft = null;
-        let acn = null;
-        function regresar(evt){
-            evt.preventDefault();
-            window.location.replace('support.html?item='+item);
-        }
-
-
-        function createSchedule(evt){
-            evt.preventDefault();
-            fi = document.querySelector("#f_inicio").value;
-            ft = document.querySelector("#f_termino").value;
-            acn = document.querySelector("#n_act").value;
-
-            if(fi.length  > 0 && ft.length > 0 && Number(acn) > 0){    
-                let table = document.querySelector("#table_activities tbody");
-                table.innerHTML = "";
-                console.log("Creating shedule "+acn);
-
-                for(i = 0; i < Number(acn); i++){
-                    row =  '<tr><td>'+i+'&nbsp;&nbsp;</td>\
-                            <td><textarea  name="des'+i+'" id="des'+i+'" placeholder="Descripción" required></textarea></td>\
-                            <td>&nbsp;<input type="date" name="fi'+i+'" id="fi'+i+'" placeholder="Fecha inicio" required>&nbsp;</td>\
-                            <td><input type="date" name="ft'+i+'" id="ft'+i+'" placeholder="Fecha terminó" required>&nbsp;</td></tr>';
-                    table.innerHTML+= row;
-                }
-
-                table.innerHTML+='<input type="submit" name="btnSaveSupport" value="Guardar" onclick="sendSchedule();">';
-                document.querySelector("#table_activities").style.display = "block";
-            }
-
-            else{
-                alert("Error al crear hoja mantenimiento");
-            }
-        }
-
-        function sendSchedule(){
-            fd_sheet = new FormData();
-            fd_sheet.append("new_support_sheet",0);
-            fd_sheet.append("material",item);
-            fd_sheet.append("fecha_inicio",fi);
-            fd_sheet.append("fecha_termino",ft);
-
-            let request_new_sheet = new XMLHttpRequest();
-            request_new_sheet.onload = function(){
-                console.log("Sending schedule");
-                console.log(request_new_sheet.responseText);
-
-                let support_sheet = request_new_sheet.responseText;
-                let activities = document.querySelectorAll("#table_activities tbody tr");
-                let error = false;
-                activities.forEach(function(val,indice){
-                    let description = document.querySelector("#des"+indice).value;
-                    let fi_act = document.querySelector("#fi"+indice).value;
-                    let ft_act = document.querySelector("#ft"+indice).value;
-
-                    let fd_act = new FormData();
-                    console.log("indice: "+indice);
-                    fd_act.append("new_activity","0");
-                    fd_act.append("descripcion",description);
-                    fd_act.append("fecha_inicio",fi_act);
-                    fd_act.append("fecha_termino",ft_act);
-                    fd_act.append("hoja_mantenimiento",support_sheet);
-
-                    let req_act = new XMLHttpRequest();
-                    req_act.onload = function(){
-                        console.log("Recibi: "+req_act.responseText);
-                        if(req_act.responseText == "error"){
-                            error = true;
-                        }
-                    };
-
-                    req_act.open("POST","http://localhost/QR_Directory/QR_Directory_API/api.php",true);
-                    req_act.send(fd_act);
-
-                    
-                    
-                    console.log("Descripcion: "+description);
-                    console.log("Fecha inicio: "+fi_act);
-                    console.log("Fecha termino: "+ft_act);
-                    
-                });
-
-                if(error){
-                    alert("Error");
-                }
-
-                else{
-                    alert("Exito al crear");
-                }
-            };
-
-            request_new_sheet.open("POST","http://localhost/QR_Directory/QR_Directory_API/api.php",true);
-            request_new_sheet.send(fd_sheet);
-        }
-
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+    <script src="https://uicdn.toast.com/tui.code-snippet/latest/tui-code-snippet.min.js"></script>
+    <script src="https://uicdn.toast.com/tui.dom/v3.0.0/tui-dom.js"></script>
+    <script src="https://uicdn.toast.com/tui.time-picker/latest/tui-time-picker.min.js"></script>
+    <script src="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chance/1.0.13/chance.min.js"></script>
+    <script src="assets/tui.calendar/dist/tui-calendar.js"></script>
+    <script src="assets/tui.calendar/examples/js/data/calendars.js"></script>
+    <script src="assets/tui.calendar/examples/js/data/schedules.js"></script>
+    <script type="text/javascript" class="code-js">
+        var cal = new tui.Calendar('#calendar', {
+            defaultView: 'month' // monthly view option
+        });
     </script>
+    <script src="assets/tui.calendar/examples/js/app.js"></script>
 </body>
+
 </html>

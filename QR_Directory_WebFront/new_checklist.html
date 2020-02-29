@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" href="./scss/dashboard.css">
+    <link rel="stylesheet" href="./css/edit.css">
+    <title>Nuevo checklist</title>
+</head>
+
+<body>
+    <header>
+        <div class="logo-container">
+            <img src="assets/logo.png" alt="QR Directory logo">
+            <h3>QR Directory</h3>
+        </div>
+        <div class="btn-container">
+            <a class="btn-regresar" href="#" onclick="regresar(event)">Regresar</a>
+        </div>
+    </header>
+
+    <div class="main-wraper">
+        <h1>Nueva checklist</h1>
+        <form action="" id="formActividades">
+            <label for="nombre-lista"></label>
+            <input type="text" name="nombre-lista" id="nombre-lista" placeholder="Nombre lista"><br>
+            <button id="btnAgregarActividad" onclick="agregarActividad(event)">Agregar actividad</button><br>
+            <div class="actividades">
+                <input type="text" name="act-0" id="act-0" placeholder="Descripción actividad"><br>
+
+            </div>
+            <input type="submit" value="Guardar lista">
+        </form>
+    </div>
+
+    <footer>
+        <p class="footer-text">2019. QR <b>Directory</b></p>
+    </footer>
+
+    <script src="./scripts/new_checklist.js"></script>
+</body>
+</html>

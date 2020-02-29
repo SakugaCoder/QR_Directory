@@ -3,8 +3,8 @@ API_NAME = "api.php";
 LOGIN_NAME = "login.php";
 
 (function(){
-    console.log("Logged value:");
-    console.log(localStorage.getItem("logged"));
+    //console.log("Logged value:");
+    //console.log(localStorage.getItem("logged"));
 }());
 
 function QRDirectoryAPI(url, params = null, method, _data, callback){
@@ -47,7 +47,7 @@ function responseLogIn(response){
 
 
 function showQueryResults(contaier,descripcion,marca,modelo,id,img){
-    console.log("Showing results");
+    //console.log("Showing results");
     contaier.innerHTML += "<div class='item-container' style='margin-top:30px'>\
             <div class='image' id='"+id+"-image'></div>\
                 <div class='item-data'>\
@@ -75,7 +75,7 @@ function showQueryResults(contaier,descripcion,marca,modelo,id,img){
     try{
         let item_image = document.querySelector("#"+id+"-image");
         id = id.split("-")[0] + "-"+id.split("-")[2];
-        console.log("new id"+id);   
+        //console.log("new id"+id);   
         item_image.style.background = "url('http://localhost/QR_Directory/QR_Directory_API/"+img+"')";
         item_image.style.backgroundSize = "70% 70%";
         item_image.style.backgroundPosition = "center",
@@ -83,34 +83,20 @@ function showQueryResults(contaier,descripcion,marca,modelo,id,img){
     }
 
     catch(exception){
-        console.log("Error loading image");
+        //console.log("Error loading image");
     }
 }
 
 function deleteItem(item){
-    console.log("Borrando archivo");
+    //console.log("Borrando archivo");
     let fd = new FormData();
     fd.append("item",item);
-    console.log("El item es: "+item);
-    console.log("api url "+api_url);
-
     QRDirectoryAPI(API_URL + API_NAME,null,"DELETE",fd,responseDeleteItem);
-
-    /*
-    let XMLHttp = new XMLHttpRequest();
-    XMLHttp.onreadystatechange = function() {
-        if(XMLHttp.status == 200 && XMLHttp.readyState == 4){
-
-        }
-    };
-    XMLHttp.open("DELETE",api_url,true);
-    XMLHttp.send(fd);
-    */
 }
 
-function responseDeleteItem(resonse){
-    console.log("respuesta recibida");
-    console.log(response);
+function responseDeleteItem(response){
+    //console.log("respuesta recibida");
+    //console.log(response);
     let res = JSON.parse(response);
     if(res.error){
         Swal.fire({
@@ -135,12 +121,13 @@ function responseDeleteItem(resonse){
     }
 }
 
-function getNavQuery(){
+function getNavQuery(param="item"){
     args = location.search.substr(1);
-    console.log("Args length:"+args.length);
+    //console.log("Args length:"+args.length);
+    //console.log("Longitud del parametro: "+param.length);
     if(args.length > 0){
-        console.log(args.substr(0,4));
-        if(args.substr(0,4) == "item"){
+        console.log(args.substr(0,param.length));
+        if(args.substr(0,param.length) == param){
             if(args.substr(5) != ""){
                 item = args.substr(5)
                 console.log(item);
@@ -170,7 +157,7 @@ function validateLogin(area){
     var logged = localStorage.getItem("logged");
     if(logged){
         if(area == "login"){
-            console.log("Login verify");
+            //console.log("Login verify");
             if(logged == "true"){
                 alert("Ya estas logeado vas a ser redirigido");
                 window.location.replace("dashboard.html");
@@ -182,7 +169,7 @@ function validateLogin(area){
         }
     
         else if(area == "admin"){
-            console.log("Admin verify");
+            //console.log("Admin verify");
             if( logged == "false"){
                 alert("No estas logeado vas a ser redirigido");
                 window.location.replace("login.html");
@@ -193,8 +180,6 @@ function validateLogin(area){
             }
         }
     }
-
-
     else if(area == "admin"){
         alert("Lo siento no has hecho nada :(");
         window.location.replace("login.html");

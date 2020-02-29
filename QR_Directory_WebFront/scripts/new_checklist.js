@@ -1,4 +1,5 @@
 item = null;
+let form_actividades = document.querySelector(".actividades");
 (function(){
 	window.onload = function() {
         item = this.getNavQuery();
@@ -13,8 +14,10 @@ item = null;
 	}
 }());
 
-function createSchedule(evt){
+
+function agregarActividad(evt){
     evt.preventDefault();
-    console.log("Creando shedule");
-    window.location.replace("new_checklist.html?item="+item);
+    console.log("Agregando actividad");
+    let new_activity = ' <input type="text" name="act-0" id="act-0" placeholder="Descripción actividad"><br>';
+    form_actividades.innerHTML += new_activity;
 }

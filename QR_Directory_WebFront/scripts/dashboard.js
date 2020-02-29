@@ -1,3 +1,4 @@
+let preloader = null;
 (function(){
     validateLogin("admin");
 
@@ -19,7 +20,7 @@ function startSearch(evt){
     console.log("Lab: ",lab.options[lab.selectedIndex].innerHTML);
     console.log("kind: "+kind.options[kind.selectedIndex].innerHTML);
     document.querySelector(".result-section").innerHTML = "";
-    let preloader = document.querySelector("#loader_container");
+    preloader = document.querySelector("#loader_container");
     preloader.style.display = "block";
     getItems(search_value.value,lab.selectedIndex,kind.selectedIndex,preloader);
 }
@@ -39,15 +40,31 @@ function adminAction(evt){
 
         if(option === "delete"){
             let img_name = (id.split("_")[0]).split("-")[0] + "-" + (id.split("_")[0]).split("-")[2];
+            let bi = null;
             try{
                 console.log("Background div id: "+'#'+real_id+"-image");
                 let img = document.querySelector('#'+real_id+"-image");
                 style = img.currentStyle || window.getComputedStyle(img, false);
-                let bi = style.backgroundImage.slice(4, -1).replace(/"/g, "");
+                bi = style.backgroundImage.slice(4, -1).replace(/"/g, "");
+            }
+
+
+            catch (exception){
+                console.log("Error no se pudo eliminar");
+            }
+                let alertImgHTML = null;
+                if (bi == null){
+                    console.log("El archivo a eliminar no tiene imagen");
+                }
+
+                else{
+                    console.log("EL archivo si tiene imagen");
+                    alertImgHTML = '<img src="'+bi+'" width="200px" height="180px"/>';
+                }
                 Swal.fire(
                     {
                         title: '<p>¿Seguro que deseas eliminar <b>'+id.split("_")[0]+'</b>?<p/>',
-                        html: '<img src="'+bi+'" width="200px" height="180px"/>',
+                        html: alertImgHTML,
                         showCancelButton: true,
                         confirmButtonText: 'Cancelar',
                         cancelButtonText: 'Si, eliminar',
@@ -63,12 +80,6 @@ function adminAction(evt){
                         console.log("no deleted");
                     }
                 });
-            }
-
-
-            catch (exception){
-                console.log("Error no se pudo eliminar");
-            }
 
         }
 
@@ -121,10 +132,10 @@ function getItems(search_value,lab,kind,preloader){
     QRDirectoryAPI(API_URL+API_NAME,params,"GET",null,responseGetItem);
 }
 
-function responseGetItem(data){        for(item in items){
+function responseGetItem(data){        
 
     console.log("Respuesta recibida");
-    console.log(JSON.parse(data));        for(item in items){
+    console.log(JSON.parse(data));
 
     var items = JSON.parse(data);
     container = document.querySelector(".result-section");
