@@ -162,3 +162,53 @@ UNLOCK TABLES;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
 -- Dump completed on 2020-02-19 16:34:14
+
+
+
+CREATE TABLE IF NOT EXISTS hojas_mantenimiento(
+  id BIGINT PRIMARY KEY AUTO_INCREMENT,
+  id_material VARCHAR(30),
+  anio INT,
+);
+
+CREATE TABLE IF NOT EXISTS lista_actividades(
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  nombre VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS lista_actividades_detalle(
+  id BIGINT PRIMARY KEY AUTO_INCREMENT,
+  lista_actividades INT NOT NULL,
+  actividad TEXT(250) NOT NULL,
+  FOREIGN KEY(lista_actividades) REFERENCES lista_actividades(id)
+);
+
+CREATE TABLE IF NOT EXISTS lista_actividades_programadas(
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  fecha date,
+  realizo VARCHAR(60), 
+  revizo VARCHAR(60),
+  comentarios TEXT(250),
+  hoja_mantenimiento BIGINT,
+  FOREIGN KEY(hoja_mantenimiento) REFERENCES hojas_mantenimiento(id)
+);
+
+CREATE TABLE IF NOT EXISTS lista_actividades_programadas_detalle(
+  id BIGINT PRIMARY KEY AUTO_INCREMENT,
+  lista_actividades_programadas INT NOT NULL,
+  actividad_detalle BIGINT NOT NULL,
+  terminada BOOLEAN DEFAULT 0,
+  FOREIGN KEY(lista_actividades_programadas) REFERENCES lista_actividades_programadas(id),
+  FOREIGN KEY(actividad_detalle) REFERENCES lista_actividades_detalle(id)
+);
+
+
+/* Creación de lista de actividades de prueba */
+INSERT INTO lista_actividades values(null,"Lista para maquinas R");
+
+INSERT INTO lista_actividades_detalle values (null,1,"Tornillos limpios"),
+(null,1,"Engranes funcionando"),
+(null,1,"Maquina limpia");
+
+
+INSERT INTO hojas_mantenimiento VALUES(null,"1234-001-ABCD",2019);
