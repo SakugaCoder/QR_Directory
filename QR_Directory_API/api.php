@@ -492,6 +492,101 @@
 		}
 	}
 
+	//Metodo para crear nueva lista de
+	else if(isset($_POST['lista_actividades']) && isset($_POST['nombre_lista_actividades']) ){
+		$lista_actividades = $_POST['lista_actividades'];
+		$nombre_lista_actividades = $_POST['nombre_lista_actividades'];
+		$sql = "CALL almacenar_nuevas_actividades(?, ?);";
+		$stm = $con->prepare($sql);
+		$stm->bind_param("ss",$lista_actividades,$nombre_lista_actividades);
+		$stm->execute();
+		$res = $stm->get_result();
+
+		$respose = new StdClass();
+		if($res){
+			
+			$respose ->error = false; 
+			echo $respose;
+		}
+
+		else{
+			$respose ->error = true; 
+			echo $respose;
+		}
+	}
+
+	//Metodo para crear nueva hoja mantenimiento
+	else if (isset($_POST['anio']) && isset($_POST['id_material']) && isset($_POST['id_lista_actividades']) && isset($_POST['lista_fechas']) ){
+		$anio = $_POST['anio'];
+		$id_material = $_POST['id_material'];
+		$id_lista_actividades = $_POST['id_lista_actividades'];
+		$lista_fechas = $_POST['lista_fechas'];
+		//call asignar_actividades("1234-001-ABCD",2021,2,'2020-02-11,2020-03-11,2020-04-11,2020-05-11');
+		$sql = "CALL asignar_actividades(? , ?, ?, ?)";
+		$stm = $con->prepare($sql);
+		$stm->bind_param("siis");
+		$stm->execute();
+		$res = $stm->get_result();
+		
+		
+		$respose = new StdClass();
+		if($res){
+			
+			$respose->error = false; 
+			echo $respose;
+		}
+
+		else{
+			$respose->error = true; 
+			echo $respose;
+		}
+	}
+
+
+	else if( $_GET['lista_actividades']){
+		$sql = "SELECT * FROM lista_actividades";
+		$stm = $con->prepare($sql);
+		$stm->execute();
+		$res = $stm->get_result();
+
+		$response = new StdClass();
+		$array_registros = [];
+
+		while($lista_actividades = $res->fetch_assoc()){
+			$list = new StdClass();
+			$la_id = $lista_actividades['id'];
+			$list-> id = $lista_actividades['id'];
+			$list-> nombre_lista = $lista_actividades['nombre'];
+			$sql2 = "SELECT * FROM lista_actividades_detalle WHERE lista_actividades = ? ";
+			$stm2 = $con->prepare($sql2);
+			$stm2->bind_param("i",$la_id);
+			$stm2->execute();
+			$res2 = $stm2->get_result();
+			$list_id = "list_".$lista_actividades['id'];
+			
+			$activity_list = [];
+			while($lista_actividades_detalle = $res2->fetch_assoc()){
+				//echo $lista_actividades_detalle["actividad"];
+				array_push($activity_list,$lista_actividades_detalle['actividad']);
+			}
+
+			array_push($array_registros,$list);
+			$list-> actividades = $activity_list;
+		}
+		$response->Registros = $array_registros;
+
+		if(sizeof(get_object_vars($response)) > 0){
+			$response->Error = false;
+		}
+
+		else{
+			$response->Error = true;
+		}
+
+		echo json_encode($response);
+
+	}
+
 	else{
 		//echo "Wrong request";
 		$obj = new StdClass();
