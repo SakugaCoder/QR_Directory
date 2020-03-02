@@ -613,10 +613,11 @@
 				$stm2->execute();
 				$res2 = $stm2->get_result();
 				if($res2){
-					$actividad_programada_detalle = new StdClass();
+					
 					while($hoja_actividades_programada = $res2->fetch_assoc()){
+						$actividad_programada_detalle = new StdClass();
 						$id_hoja_actividades_programadas =  $hoja_actividades_programada['id'];
-						$actividad_programada_detalle -> id = $hoja_actividades_programada['id'];
+						$actividad_programada_detalle -> id_lista_actividades_programadas = $hoja_actividades_programada['id'];
 						$actividad_programada_detalle -> fecha = $hoja_actividades_programada['fecha'];
 						$actividad_programada_detalle -> realizo = $hoja_actividades_programada['realizo'];
 						$actividad_programada_detalle -> revizo = $hoja_actividades_programada['revizo'];
@@ -630,6 +631,7 @@
 							$array_actividades_detalle = [];
 							while($activiadad_programada = $res3->fetch_assoc()){
 								$ap = new StdClass();
+								$ap -> id_actividad = $activiadad_programada['id'];
 								$ap -> actividad_detalle = $activiadad_programada['actividad_detalle'];
 								$id_actividad_detalle = $activiadad_programada['actividad_detalle'];
 								$sql4 = "SELECT actividad FROM lista_actividades_detalle WHERE id = ?; ";
@@ -643,8 +645,9 @@
 								array_push($array_actividades_detalle,$ap);
 							}
 							$actividad_programada_detalle -> actividades = $array_actividades_detalle;
+							array_push($array_listas_actividades_programadas,$actividad_programada_detalle);
 						}
-						array_push($array_listas_actividades_programadas,$actividad_programada_detalle);
+						
 					}
 					$response -> Registros = $array_listas_actividades_programadas;
 				}
@@ -654,6 +657,52 @@
 				$response->Error = true;
 			}
 		}
+		echo json_encode($response);
+	}
+
+
+	//Metodo para actualizar el estado de una actividad programada
+	else if( isset($_POST['id_actividad']) && isset($_POST['nuevo_estado_actividad'])){
+		$response = new StdClass();
+		$id_actividad = $_POST['id_actividad'];
+		$nuevo_estado_actividad = $_POST['nuevo_estado_actividad'];
+
+		$sql = "UPDATE lista_actividades_programadas_detalle set terminada = ? WHERE id = ?;";
+		$stm = $con->prepare($sql);
+		$stm->bind_param("ii",$nuevo_estado_actividad,$id_actividad);
+		$stm->execute();
+		$res = $stm->get_result();
+		if($stm){
+			$response->error = false;
+		}
+
+		else{
+			$response->error = true;
+		}
+		echo json_encode($response);
+	}
+
+	//Metodo para actualizar quién revizo, quién realizo, y los comentarios
+	else if( isset($_POST['id_lista_actividades_programadas']) && isset($_POST['quien_realizo']) && isset($_POST['quien_revizo'])  && isset($_POST['comentarios']) ){
+		$id_lista_actividades_programadas = $_POST['id_lista_actividades_programadas'];
+		$quien_realizo = $_POST['quien_realizo'];
+		$quien_reviso = $_POST['quien_revizo'];
+		$comentarios = $_POST['comentarios'];
+
+		$sql = "UPDATE lista_actividades_programadas SET realizo = ? ,revizo = ?, comentarios = ? WHERE id = ?";
+		$stm = $con->prepare($sql);
+		$stm->bind_param("sssi",$quien_realizo,$quien_reviso,$comentarios,$id_lista_actividades_programadas);
+		$stm->execute();
+
+		$response = new StdClass();
+		if($stm){
+			$response->error=false;
+		}
+
+		else{
+			$response->error->true;
+		}
+
 		echo json_encode($response);
 	}
 
