@@ -543,7 +543,7 @@
 	}
 
 
-	else if( $_GET['lista_actividades']){
+	else if( isset($_GET['lista_actividades'])){
 		$sql = "SELECT * FROM lista_actividades";
 		$stm = $con->prepare($sql);
 		$stm->execute();
@@ -577,14 +577,84 @@
 
 		if(sizeof(get_object_vars($response)) > 0){
 			$response->Error = false;
+			$response->TieneRegistros = true;
 		}
 
 		else{
 			$response->Error = true;
+			$response->TieneRegistros = false;
 		}
 
 		echo json_encode($response);
 
+	}
+
+	//Obtener id hoja mentenimiento si existe 
+
+	else if(isset($_GET['hoja_mantenimeinto']) && isset($_GET['id_material'])){
+		$id_material = $_GET['id_material'];
+		$sql = "SELECT hoja_mantenimiento FROM material WHERE id = ? ;";
+		$stm = $con->prepare($sql);
+		$stm->bind_param("s",$id_material);
+		$stm->execute();
+		$response = new StdClass();
+		$array_listas_actividades_programadas =[];
+		if($stm){
+			$res = $stm->get_result();
+			$resultado = $res->fetch_assoc();
+			$id_hoja_mantenimiento = $resultado['hoja_mantenimiento'];
+			$response -> hoja_mantenimeinto = $id_hoja_mantenimiento;
+			//Obtener activides programadas si existen
+			if($id_hoja_mantenimiento != null){
+
+				$sql2 = "SELECT * FROM lista_actividades_programadas WHERE hoja_mantenimiento = ? ;";
+				$stm2 = $con->prepare($sql2);
+				$stm2->bind_param("i",$id_hoja_mantenimiento);
+				$stm2->execute();
+				$res2 = $stm2->get_result();
+				if($res2){
+					$actividad_programada_detalle = new StdClass();
+					while($hoja_actividades_programada = $res2->fetch_assoc()){
+						$id_hoja_actividades_programadas =  $hoja_actividades_programada['id'];
+						$actividad_programada_detalle -> id = $hoja_actividades_programada['id'];
+						$actividad_programada_detalle -> fecha = $hoja_actividades_programada['fecha'];
+						$actividad_programada_detalle -> realizo = $hoja_actividades_programada['realizo'];
+						$actividad_programada_detalle -> revizo = $hoja_actividades_programada['revizo'];
+						$actividad_programada_detalle -> comentarios = $hoja_actividades_programada['comentarios'];
+						$sql3 = "SELECT * FROM lista_actividades_programadas_detalle WHERE lista_actividades_programadas = ? ;";
+						$stm3 = $con->prepare($sql3);
+						$stm3->bind_param("i",$id_hoja_actividades_programadas);
+						$stm3->execute();
+						$res3 = $stm3->get_result();
+						if($res3){
+							$array_actividades_detalle = [];
+							while($activiadad_programada = $res3->fetch_assoc()){
+								$ap = new StdClass();
+								$ap -> actividad_detalle = $activiadad_programada['actividad_detalle'];
+								$id_actividad_detalle = $activiadad_programada['actividad_detalle'];
+								$sql4 = "SELECT actividad FROM lista_actividades_detalle WHERE id = ?; ";
+								$stm4 = $con->prepare($sql4);
+								$stm4->bind_param("i",$id_actividad_detalle);
+								$stm4->execute();
+								$res4 = $stm4->get_result();
+								$nombre_actividad = ($res4->fetch_assoc())['actividad']; 
+								$ap -> nombre_actividad = $nombre_actividad;
+								$ap -> terminada = $activiadad_programada['terminada'];
+								array_push($array_actividades_detalle,$ap);
+							}
+							$actividad_programada_detalle -> actividades = $array_actividades_detalle;
+						}
+						array_push($array_listas_actividades_programadas,$actividad_programada_detalle);
+					}
+					$response -> Registros = $array_listas_actividades_programadas;
+				}
+			}
+
+			else{
+				$response->Error = true;
+			}
+		}
+		echo json_encode($response);
 	}
 
 	else{
