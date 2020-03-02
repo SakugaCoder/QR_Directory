@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" href="./css/dashboard.css">
+    <title>Dashboard</title>
+</head>
+<body>
+    <header>
+        <div class="logo-container">
+                <img src="assets/logo.png" alt="QR Directory logo">
+                <h3>QR Directory</h3>
+        </div>
+    </header>
+
+    <div class="main-wraper">
+ 
+        <div class="result-section">
+
+        </div>
+    </div>
+    <div id="loader_container" style="display:none">
+            <div class="preloader-wrapper small active">
+                <div class="spinner-layer spinner-green-only">
+                  <div class="circle-clipper left">
+                    <div class="circle"></div>
+                  </div><div class="gap-patch">
+                    <div class="circle"></div>
+                  </div><div class="circle-clipper right">
+                    <div class="circle"></div>
+                  </div>
+                </div>
+            </div>
+        </div>
+	<footer>
+        <p class="footer-text">2019. QR <b>Directory</b></p>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="./assets/plugins/jquery.qrcode.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="./scripts/qrdirectory.js"></script>
+    <script src="./scripts/dashboard.js"></script>
+    <script src="./assets/plugins/reimg.js"></script>
+    <script src="./scripts/lab_material.js"></script>
+
+    <script>
+
+    </script>
+
+    <style>
+        #loader_container{
+            max-width: 50px;
+            width: 100%;
+            margin: auto;
+            transition: all ease 0.2s;
+        }
+
+        #search_value{
+            border-bottom : 0px;
+            border-color : #fff;
+            box-shadow: none;
+        }
+
+        select{
+            display: block;
+        }
+ 
+    </style>
+</body>
+</html>

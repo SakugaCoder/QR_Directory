@@ -1,28 +1,15 @@
-let preloader = null;
+preloader = null;
 (function(){
-    validateLogin("admin");
-
-    document.querySelectorAll(".actions img").forEach( (item) => {
-        item.addEventListener('click',evtList);
-    });
-    /*
-    var btn_search = document.querySelector(".search-bar img");
-    btn_search.addEventListener("click", startSearch());
-    */
+    startSearch();
 }());
 
-function startSearch(evt){
-    evt.preventDefault();
-    let search_value = document.querySelector("#search_value");
-    let lab = document.querySelector("#lab");
-    let kind = document.querySelector("#kind");
-    console.log("Search value: "+search_value.value);
-    console.log("Lab: ",lab.options[lab.selectedIndex].innerHTML);
-    console.log("kind: "+kind.options[kind.selectedIndex].innerHTML);
+function startSearch(){
     document.querySelector(".result-section").innerHTML = "";
     preloader = document.querySelector("#loader_container");
     preloader.style.display = "block";
-    getItems(search_value.value,lab.selectedIndex,kind.selectedIndex,preloader);
+    let id_lab= getNavQuery("laboratorio");
+    console.log(id_lab);
+    getItems(id_lab);;
 }
 
 function pe(evt){
@@ -126,8 +113,8 @@ function adminAction(evt){
 }
 
 
-function getItems(search_value,lab,kind,preloader){
-    let params = "?search_value="+search_value+"&lab="+lab+"&kind="+kind;
+function getItems(lab){
+    let params = "?laboratorio="+lab;
 
     QRDirectoryAPI(API_URL+API_NAME,params,"GET",null,responseGetItem);
 }
@@ -135,9 +122,9 @@ function getItems(search_value,lab,kind,preloader){
 function responseGetItem(data){        
 
     console.log("Respuesta recibida");
+    console.log(JSON.parse(data));
 
-
-    var items = data;
+    var items = JSON.parse(data);
     container = document.querySelector(".result-section");
     container.innerHTML = "";
     if(items.error){
@@ -166,4 +153,7 @@ function responseGetItem(data){
     }
 
     preloader.style.display = "none";
+    actions = document.querySelectorAll(".actions");
+    console.log(actions);
+    actions.forEach( (ele) => ele.style.display = "none")
 }

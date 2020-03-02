@@ -6,7 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta http-equiv="Content-type" content="text/html; charset=utf-8">
     <link rel="stylesheet" href="./css/dashboard.css">
-    <link rel="stylesheet" href="./css/edit.css">
+	<link rel="stylesheet" href="./css/edit.css">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
     <title>Nueva ficha de mantenimiento</title>
 </head>
 <body>
@@ -16,62 +17,63 @@
                 <h3>QR Directory</h3>
         </div>
         <div class="btn-container">
-            <a class="btn-regresar" href="#" onclick="regresar(event)">Regresar</a>
+			<a class="btn-regresar" href="#" onclick="regresar(event)">Regresar</a>
+			<a href="#" id="btnCrearCheckList">Crear nueva checklist</a>
         </div>
     </header>
 
     <div class="main-wraper">
 		<div class="actividades-mantenimiento">
-			<table id="tabla-actividades-mantenimiento">
-				<thead>
-					<tr>
-						<th>Año fecha mantenimiento</th>
-						<th>Actividad</th>
-						<th>Semana mantenimiento</th>
-						<th>Comentarios</th>
-						<th>Revizó</th>
-						<th>Realizada</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td>2020</td>
-						<td>Equipo funcionando correctamente</td>
-						<td>2020-02-20 2020-02-26</td>
-						<td>El equipo cuenta con rasguños</td>
-						<td>Jaime</td>
-						<td><input type="checkbox" name="" id=""></td>
-					</tr>
-				</tbody>
-			</table>
 		</div>
 	</div>
 
-	<a href="#" id="btnCrearCheckList">Crear nueva checklist</a>
 	<footer>
         <p class="footer-text">2019. QR <b>Directory</b></p>
     </footer>
 
     <style>
-		table{
-			background: #fff;
+
+		h1{
+			display: block;
+			text-align: center;
+			font-size: 26px;
+		}
+
+		label,h2{
+			display: block;
+			text-align: center;
+		}
+
+		.actividad-mantenimiento{
+			background: tomato;
 			color: #fff;
+			padding-bottom: 20px;
+			border-radius: 20px;
+			margin-bottom: 20px;
+		}
+		table{
+			display: block;
+			max-width: 400px;
+			width: 100%;
+			margin: 20px auto;
+			color: #000;
 		}
 
-		table thead{
-			background-color: crimson;
-		}
-
+		tr:nth-child(even) {background-color: rgb(63, 59, 59);}
 		table head tr th{
 			text-align: center;
 		}
 
+		table{
+			background: #201B1B;
+			color: #fff;
+		}
+
 		table tbody tr td{
-			background: #2d2d2d;
 			text-align: center;
 		}
 
-		#btnCrearCheckList{
+		#btnCrearCheckList,.btnGuardarDatos{
 			display: block;
 			max-width: 300px;
 			width: 100%;
@@ -86,10 +88,32 @@
 			text-align: center;
 		}
 		
-		#btnCrearCheckList:hover{
+		#btnCrearCheckList:hover,.btnGuardarDatos:hover{
 			opacity: 0.6;
 			cursor: pointer;
 		}
+
+		input[type="checkbox"] {
+       		line-height: 2.1ex;
+		}
+		
+		input[type="checkbox"]:checked + label::after {
+       content: '';
+       position: absolute;
+       width: 1.2ex;
+       height: 0.4ex;
+       background: rgba(0, 0, 0, 0);
+       top: 0.9ex;
+       left: 0.4ex;
+       border: 3px solid blue;
+       border-top: none;
+       border-right: none;
+       -webkit-transform: rotate(-45deg);
+       -moz-transform: rotate(-45deg);
+       -o-transform: rotate(-45deg);
+       -ms-transform: rotate(-45deg);
+       transform: rotate(-45deg);
+    }
     </style>
 
     <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>

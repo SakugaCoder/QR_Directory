@@ -12,7 +12,7 @@ function QRDirectoryAPI(url, params = null, method, _data, callback){
     let XMLHttp = new XMLHttpRequest();
     XMLHttp.onreadystatechange = function(){
         if(XMLHttp.status == 200 && XMLHttp.readyState == 4){
-            callback(XMLHttp.responseText);
+            callback(JSON.parse(XMLHttp.responseText));
         }
     };
 
@@ -128,8 +128,9 @@ function getNavQuery(param="item"){
     if(args.length > 0){
         console.log(args.substr(0,param.length));
         if(args.substr(0,param.length) == param){
-            if(args.substr(5) != ""){
-                item = args.substr(5)
+            if( (args.substr(param.length)).split("=")[1] != ""){
+                item = args.substr(param.length)
+                item = item.split("=")[1];
                 console.log(item);
                 //displaySupportSheets(item);
                 return item;

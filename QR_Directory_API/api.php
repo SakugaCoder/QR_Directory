@@ -502,17 +502,17 @@
 		$stm->execute();
 		$res = $stm->get_result();
 
-		$respose = new StdClass();
-		if($res){
+		$response = new StdClass();
+		if($stm){
 			
-			$respose ->error = false; 
-			echo $respose;
+			$response ->error = false; 
 		}
 
 		else{
-			$respose ->error = true; 
-			echo $respose;
+			$response ->error = true; 
 		}
+
+		echo json_encode($response);
 	}
 
 	//Metodo para crear nueva hoja mantenimiento
@@ -543,6 +543,7 @@
 	}
 
 
+	//Metodo para desplegar las listas de actividades existentes
 	else if( isset($_GET['lista_actividades'])){
 		$sql = "SELECT * FROM lista_actividades";
 		$stm = $con->prepare($sql);
@@ -591,7 +592,7 @@
 
 	//Obtener id hoja mentenimiento si existe 
 
-	else if(isset($_GET['hoja_mantenimeinto']) && isset($_GET['id_material'])){
+	else if(isset($_GET['hoja_mantenimiento']) && isset($_GET['id_material'])){
 		$id_material = $_GET['id_material'];
 		$sql = "SELECT hoja_mantenimiento FROM material WHERE id = ? ;";
 		$stm = $con->prepare($sql);
@@ -603,7 +604,7 @@
 			$res = $stm->get_result();
 			$resultado = $res->fetch_assoc();
 			$id_hoja_mantenimiento = $resultado['hoja_mantenimiento'];
-			$response -> hoja_mantenimeinto = $id_hoja_mantenimiento;
+			$response -> hoja_mantenimiento = $id_hoja_mantenimiento;
 			//Obtener activides programadas si existen
 			if($id_hoja_mantenimiento != null){
 
@@ -704,6 +705,14 @@
 		}
 
 		echo json_encode($response);
+	}
+
+	else if( isset($_GET['laboratorio'])){
+		$id_lab = $_GET['laboratorio'];
+		$sql = "SELECT * FROM material WHERE laboratorio = ? AND tipo_material = 3";
+		$stm = $con->prepare($sql);
+		$stm->bind_param("i",$id_lab);
+		echo json_encode(getItems($stm));
 	}
 
 	else{

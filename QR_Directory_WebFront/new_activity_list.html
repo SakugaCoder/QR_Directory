@@ -24,13 +24,12 @@
 
     <div class="main-wraper">
         <h1>Nueva checklist</h1>
-        <form action="" id="formActividades">
+        <form action="" id="formActividades" onsubmit="crearListaActividades(event)">
             <label for="nombre-lista"></label>
             <input type="text" name="nombre-lista" id="nombre-lista" placeholder="Nombre lista"><br>
             <button id="btnAgregarActividad" onclick="agregarActividad(event)">Agregar actividad</button><br>
             <div class="actividades">
-                <input type="text" name="act-0" id="act-0" placeholder="Descripción actividad"><br>
-
+                <input type="text" class="activity" placeholder="Descripción actividad">
             </div>
             <input type="submit" value="Guardar lista">
         </form>
@@ -40,6 +39,13 @@
         <p class="footer-text">2019. QR <b>Directory</b></p>
     </footer>
 
-    <script src="./scripts/new_checklist.js"></script>
+    <script src="./scripts/qrdirectory.js"></script>
+    <script src="./scripts/new_activity_list.js"></script> 
+
+    <style>
+        input[type="text"]{
+            margin-bottom:  20px;
+        }
+    </style>
 </body>
 </html>

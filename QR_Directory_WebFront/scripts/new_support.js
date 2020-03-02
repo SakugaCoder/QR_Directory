@@ -18,3 +18,8 @@ function createSchedule(evt){
     console.log("Creando shedule");
     window.location.replace("new_checklist.html?item="+item);
 }
+
+function regresar(evt){
+    evt.preventDefault();
+    window.location.replace("mantenimiento.html?item="+item);
+}
