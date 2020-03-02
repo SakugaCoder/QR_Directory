@@ -577,13 +577,13 @@
 		$response->Registros = $array_registros;
 
 		if(sizeof(get_object_vars($response)) > 0){
-			$response->Error = false;
-			$response->TieneRegistros = true;
+			$response->error = false;
+			$response->tieneRegistros = true;
 		}
 
 		else{
-			$response->Error = true;
-			$response->TieneRegistros = false;
+			$response->error = true;
+			$response->tieneRegistros = false;
 		}
 
 		echo json_encode($response);
