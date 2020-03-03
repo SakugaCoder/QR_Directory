@@ -3,6 +3,7 @@ API_NAME = "api.php";
 LOGIN_NAME = "login.php";
 
 (function(){
+    validateLogin();
     //console.log("Logged value:");
     //console.log(localStorage.getItem("logged"));
 }());
@@ -12,7 +13,14 @@ function QRDirectoryAPI(url, params = null, method, _data, callback){
     let XMLHttp = new XMLHttpRequest();
     XMLHttp.onreadystatechange = function(){
         if(XMLHttp.status == 200 && XMLHttp.readyState == 4){
-            callback(JSON.parse(XMLHttp.responseText));
+            try{
+                callback(JSON.parse(XMLHttp.responseText));
+            }
+
+            catch(exception){
+                console.log(exception);
+                console.log(XMLHttp.responseText);
+            }
         }
     };
 
@@ -154,7 +162,7 @@ function getNavQuery(param="item"){
     }
 }
 
-function validateLogin(area){
+function validateLogin(area="admin"){
     var logged = localStorage.getItem("logged");
     if(logged){
         if(area == "login"){

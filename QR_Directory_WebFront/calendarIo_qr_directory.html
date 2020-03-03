@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+
+</head>
+<body>
+    <button class="btn" onclick="borrarActividades();">Asignar actividades cada:</button>
+    <input type="text" name="cada" id="cada" placeholder="15 (dias)">
+    <button class="btn" onclick="borrarActividades();">Borrar actividades</button>
+    <div id='calendario'></div>
+    <button class="btn" onclick="crearCheckList();">Crear checklist</button>
+
+
+    <style>
+        .btn{
+            display: block;
+            margin: 20px auto;
+            background: tomato;
+            color: #fff;
+            border: none;
+            border-radius: 20px;
+            padding: 10px 20px;
+            transition: all ease-in 0.3s;
+        }
+
+        .btn:hover{
+            opacity: 0.8;
+            cursor: pointer;
+        }
+    </style>
+
+    <script>
+        function crearCheckList(){
+            let fechas_actividades = [];
+            calendario.getEvents().forEach( function(evento) {
+                let inicio = (evento.start).toJSON();
+                let titulo = evento.title;
+                let fecha = (inicio.split("T")) [0];
+                let anio = (fecha.split("-"))[0];
+                let mes = (fecha.split("-"))[1];
+                let dia = (fecha.split("-"))[2];
+                if(fechas_actividades.indexOf(fecha) == -1){
+                    fechas_actividades.push(fecha);
+                }
+            });
+
+            console.log(fechas_actividades);
+
+        }
+
+        function borrarActividades(){
+            calendario.removeAllEvents();
+        }
+    </script>
+</body>
+</html>

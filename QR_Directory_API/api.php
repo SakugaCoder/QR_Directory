@@ -524,22 +524,21 @@
 		//call asignar_actividades("1234-001-ABCD",2021,2,'2020-02-11,2020-03-11,2020-04-11,2020-05-11');
 		$sql = "CALL asignar_actividades(? , ?, ?, ?)";
 		$stm = $con->prepare($sql);
-		$stm->bind_param("siis");
+		$stm->bind_param("siis",$id_material,$anio,$id_lista_actividades,$lista_fechas);
 		$stm->execute();
 		$res = $stm->get_result();
 		
 		
-		$respose = new StdClass();
-		if($res){
-			
-			$respose->error = false; 
-			echo $respose;
+		$response = new StdClass();
+		if($stm){
+			$response->error = false; 
 		}
 
 		else{
-			$respose->error = true; 
-			echo $respose;
+			$response->error = true; 
 		}
+
+		echo json_encode($response);
 	}
 
 
