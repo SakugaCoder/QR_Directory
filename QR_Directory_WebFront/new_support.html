@@ -35,6 +35,7 @@
     <div class="main-wraper">
         <h2 style="text-align: center; font-weight: normal; font-size: 20px; margin-bottom: 20px;">Hoja de mantenimiento
             para<br><b id="item_value"></b></h2>
+        <div class="img-item"><img src="" alt=""></div>
 
         <div class="item-data">
             <form action="" method="POST" onsubmit="crearCheckList(event)" id="edit-form">
@@ -61,7 +62,7 @@
                 </div>
 
                 <div class="asign-to-all">
-                    <h4 class="display-4">Asignar al resto </h4>
+                    <h4 style="text-align:left;">Asignar al resto </h4>
                     <input type="checkbox" name="" id="">
                 </div>
                 <input type="submit" name="btn_save" id="btn_save" value="Crear checklist"">
@@ -73,14 +74,10 @@
         <p class="footer-text">2019. QR <b>Directory</b></p>
     </footer>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script src="./scripts/qrdirectory.js"></script>
     <script src="./scripts/new_support.js"></script>
-    
-    <script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 
-
-      </script>
       <style>
       
         body {
@@ -110,7 +107,27 @@
             opacity: 0.8;
             cursor: pointer;
         }
-      
+
+        *{
+            padding: 0px;
+            margin: 0px;
+        }
+        h4{
+          display: block;
+          text-align: center;
+        }
+        #nombre_material{
+          font-size: 26px;
+        }
+
+        .img-item img{
+          display: block;
+          margin: auto;
+          max-width: 150px;
+          max-height: 150px;
+          width: 100%;
+          height: 100%;
+        }
       </style>
 </body>
 

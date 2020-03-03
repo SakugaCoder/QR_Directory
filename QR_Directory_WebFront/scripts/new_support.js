@@ -5,12 +5,14 @@ var revizion_counter = 0;
 
 (function(){
 	window.onload = function() {
+        this.validateLogin();
         item = this.getNavQuery();
         if(item){
             console.log("Si tenemos item");
             console.log(item);
             document.querySelector("#item_value").innerHTML = item;
             desplegarListasDeActividades();
+            desplegarImgMaterial(item);
         }
         else{
             window.location.replace("dashboard.html");

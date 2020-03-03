@@ -23,6 +23,8 @@
     </header>
 
     <div class="main-wraper">
+		<h4>Hoja mantenimiento para: <span id="nombre_material"></span></h4>
+        <div class="img-item"><img src="" alt=""></div>
 		<div class="actividades-mantenimiento">
 		</div>
 	</div>
@@ -113,7 +115,24 @@
        -o-transform: rotate(-45deg);
        -ms-transform: rotate(-45deg);
        transform: rotate(-45deg);
-    }
+	}
+	
+	h4{
+          display: block;
+          text-align: center;
+        }
+        #nombre_material{
+          font-size: 26px;
+        }
+
+        .img-item img{
+          display: block;
+          margin: auto;
+          max-width: 150px;
+          max-height: 150px;
+          width: 100%;
+          height: 100%;
+        }
     </style>
 
     <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>

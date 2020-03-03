@@ -3,7 +3,6 @@ API_NAME = "api.php";
 LOGIN_NAME = "login.php";
 
 (function(){
-    validateLogin();
     //console.log("Logged value:");
     //console.log(localStorage.getItem("logged"));
 }());
@@ -29,7 +28,8 @@ function QRDirectoryAPI(url, params = null, method, _data, callback){
 }
 
 function closeSession(){
-    localStorage.setItem("logged",false);
+
+    localStorage.removeItem("logged");
     window.location.replace("login.html");
 }
 
@@ -38,13 +38,14 @@ function logIn(fd){
 }
 
 function responseLogIn(response){
-    if(response == "true"){
+    console.log(response);
+    if(response.error == false){
         alert("Vas a ser redirigido");
         localStorage.setItem("logged",true);
         window.location.replace("dashboard.html");
     }
 
-    else if(response == "false"){
+    else if(response.error == true){
         localStorage.setItem("logged",false);
     }
 
@@ -192,5 +193,17 @@ function validateLogin(area="admin"){
     else if(area == "admin"){
         alert("Lo siento no has hecho nada :(");
         window.location.replace("login.html");
+    }
+}
+
+function desplegarImgMaterial(item){
+    let params = "?img_material=true&id_material="+item;
+    QRDirectoryAPI(API_URL+API_NAME,params,"GET",null,respuestaDesplegarImgMaterial);
+    
+}
+
+function respuestaDesplegarImgMaterial(response){
+    if(response.error == false && response.img != null){
+        document.querySelector(".img-item img").setAttribute("src","../QR_Directory_API/"+response.img);
     }
 }

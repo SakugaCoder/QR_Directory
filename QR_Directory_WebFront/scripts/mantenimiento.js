@@ -1,12 +1,17 @@
 let material = null;
 (function(){
+    validateLogin();
     material = getNavQuery("item");
     let boton_nuevo_mantenimiento = document.querySelector("#btnCrearCheckList");
     boton_nuevo_mantenimiento.setAttribute("href","new_support.html?item="+material);
-    material != null ? desplegarHojaMantenimiento(material) : null;
+    if(material != null){
+        desplegarHojaMantenimiento(material);
+        document.querySelector("#nombre_material").textContent = item;
+    }
 }());
 
 function desplegarHojaMantenimiento(material){
+    desplegarImgMaterial(material);
     let params = "?hoja_mantenimiento=true&id_material="+material;
     console.log(params);
     QRDirectoryAPI(API_URL+API_NAME,params,"GET",null,respuestaDesplegarHojaMantenimiento);

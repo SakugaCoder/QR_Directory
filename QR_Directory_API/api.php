@@ -714,6 +714,27 @@
 		echo json_encode(getItems($stm));
 	}
 
+
+	else if( isset($_GET['img_material']) && isset($_GET['id_material'])){
+		$id_mat = $_GET['id_material'];
+		$sql = "SELECT img FROM material WHERE id = ? ;";
+		$stm = $con->prepare($sql);
+		$stm->bind_param("s",$id_mat);
+		$stm->execute();
+		$response = new StdClass();
+		if($stm){
+			$res = $stm->get_result();
+			$fila = $res->fetch_assoc();
+			$response->error = false;
+			$response->img = $fila['img'];
+		}
+
+		else{
+			$response->error = true;
+		}
+		echo json_encode($response);
+	}
+
 	else{
 		//echo "Wrong request";
 		$obj = new StdClass();

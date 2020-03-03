@@ -10,6 +10,7 @@ function startSearch(){
     let id_lab= getNavQuery("laboratorio");
     console.log(id_lab);
     getItems(id_lab);;
+    
 }
 
 function pe(evt){
