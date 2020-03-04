@@ -84,7 +84,7 @@
 
 		if(isset($_POST['id']) && isset($_POST['descripcion'])
 		&& isset($_POST['marca']) && isset($_POST['modelo'])
-		&& isset($_POST['n_piezas']) && isset($_POST['habilitadas']) 
+		&& isset($_POST['n_piezas']) && isset($_POST['no_pieza']) && isset($_POST['habilitadas']) 
 		&& isset($_POST['laboratorio']) && isset($_POST['tipo_material']) ){
 			if($_POST['laboratorio'] == "0"){
 				echo "Error no llenaste laboratorio";
@@ -152,9 +152,9 @@
 							}
 							
 							echo "Modificando elementos";
-							$sql = "UPDATE material SET descripcion = ?, marca = ?, modelo = ?, cantidad = ?, habilitadas = ?,  tipo_material = ?, laboratorio = ? WHERE id = ?";
+							$sql = "UPDATE material SET descripcion = ?, marca = ?, modelo = ?, cantidad = ?, no_pieza = ?, habilitadas = ?,  tipo_material = ?, laboratorio = ? WHERE id = ?";
 							$stm = $con->prepare($sql);
-							$stm->bind_param("sssiiiis",$_POST['descripcion'],$_POST['marca'], $_POST['modelo'],$_POST['n_piezas'], $_POST['habilitadas'], $_POST['tipo_material'], $_POST['laboratorio'], $_POST['id']);
+							$stm->bind_param("sssiiiiis",$_POST['descripcion'],$_POST['marca'], $_POST['modelo'],$_POST['n_piezas'],$_POST['no_pieza'], $_POST['habilitadas'], $_POST['tipo_material'], $_POST['laboratorio'], $_POST['id']);
 							$stm->execute();
 							if($stm){
 								echo "Edición exitosa";
@@ -174,11 +174,11 @@
 					else if($option == "insert"){
 						echo "Insertando elementos";
 						if($coincidence_number == 0){
-							$sql = "INSERT INTO  material  (id ,  descripcion ,  marca ,  modelo ,  cantidad ,  habilitadas,  img ,  ruta_manual ,  tipo_material ,  laboratorio, hoja_mantenimiento ) VALUES ( ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?)";
+							$sql = "INSERT INTO  material  (id ,  descripcion ,  marca ,  modelo ,  cantidad, no_pieza,  habilitadas,  img ,  ruta_manual ,  tipo_material ,  laboratorio, hoja_mantenimiento ) VALUES ( ?,  ?,  ?,  ?,  ?, ?, ?,  ?,  ?,  ?,  ?,  ?)";
 							$stm = $con->prepare($sql);
 							$hoja_mantenimiento = null;
 							//echo "SQL: ".$_POST['id'].$_POST['descripcion'].$_POST['marca'].$_POST['modelo'].intval($_POST['n_piezas']).intval($_POST['habilitadas']).$img_url.$datasheet_url.intval($_POST['tipo_material']).intval($_POST['laboratorio']);
-							$stm->bind_param("ssssiissiii",$_POST['id'],$_POST['descripcion'],$_POST['marca'], $_POST['modelo'],$_POST['n_piezas'], $_POST['habilitadas'],$image_url,$datasheet_url, $_POST['tipo_material'],  $_POST['laboratorio'],$hoja_mantenimiento);
+							$stm->bind_param("ssssiiissiii",$_POST['id'],$_POST['descripcion'],$_POST['marca'], $_POST['modelo'],$_POST['n_piezas'], $_POST['no_pieza'], $_POST['habilitadas'],$image_url,$datasheet_url, $_POST['tipo_material'],  $_POST['laboratorio'],$hoja_mantenimiento);
 							$stm->execute();
 							if($stm){
 								echo "Insertado correctamente";

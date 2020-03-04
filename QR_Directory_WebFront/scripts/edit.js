@@ -97,7 +97,8 @@ function getItem(item){
             else{
                 for(item in items){
                     let id = items[item].id;
-                    let cantidad = items[item].cantidad;
+					let cantidad = items[item].cantidad;
+					let no_pieza = items[item].no_pieza;
                     let ficha_tecnica = items[item].ficha_tecnica;
                     let habilitadas = items[item].habilitadas;
                     let img = items[item].img;
@@ -111,7 +112,8 @@ function getItem(item){
                     edit_form.descripcion.value = nombre;
                     edit_form.marca.value = marca;
                     edit_form.modelo.value = modelo;
-                    edit_form.n_piezas.value = cantidad;
+					edit_form.n_piezas.value = cantidad;
+					edit_form.no_pieza.value = no_pieza;
                     edit_form.habilitadas.value = habilitadas;
 					edit_form.id.value = id;
 

@@ -40,6 +40,7 @@
 			$obj->marca = $row['marca'];
 			$obj->modelo = $row['modelo'];
 			$obj->cantidad = $row['cantidad'];
+			$obj->no_pieza = $row['no_pieza'];
 			$obj->habilitadas = $row['habilitadas'];
 			$obj->img = $row['img'];
 			$obj->ficha_tecnica = $row['ruta_manual'];
