@@ -2,6 +2,7 @@ API_URL = "http://localhost/QR_Directory/QR_Directory_API/";
 API_NAME = "api.php";
 LOGIN_NAME = "login.php";
 
+
 (function(){
     //console.log("Logged value:");
     //console.log(localStorage.getItem("logged"));
@@ -34,7 +35,7 @@ function closeSession(){
 }
 
 function logIn(fd){
-    QRDirectoryAPI(API_URL + LOGIN_NAME , null, "POST", fd, responseLogIn);
+    QRDirectoryAPI(API_URL + API_NAME , null, "POST", fd, responseLogIn);
 }
 
 function responseLogIn(response){
@@ -47,9 +48,6 @@ function responseLogIn(response){
 
     else if(response.error == true){
         localStorage.setItem("logged",false);
-    }
-
-    else{
         document.querySelector(".error-container").innerHTML = "<p>Error. Usuario o contraseña incorrectos</p>";
     }
 }

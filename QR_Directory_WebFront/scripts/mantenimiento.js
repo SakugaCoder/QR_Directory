@@ -1,4 +1,5 @@
 let material = null;
+let status_material = null;
 (function(){
     validateLogin();
     material = getNavQuery("item");
@@ -12,6 +13,7 @@ let material = null;
 
 function desplegarHojaMantenimiento(material){
     desplegarImgMaterial(material);
+    desplegarEstadoMaterial(material);
     let params = "?hoja_mantenimiento=true&id_material="+material;
     console.log(params);
     QRDirectoryAPI(API_URL+API_NAME,params,"GET",null,respuestaDesplegarHojaMantenimiento);
@@ -29,6 +31,7 @@ function respuestaDesplegarHojaMantenimiento(respuesta){
             let comentarios = registro.comentarios;
             let actividades_html = "";
             let id_la = registro.id_lista_actividades_programadas;
+            actividades_html += "<p>Habilitada <input type='checkbox' id='habilitada-check' name='habilitada-check' onchange></p>"
             registro.actividades.forEach( function(actividad){
                 let estado_actual = actividad.terminada;
                 let nuevo_estado = estado_actual == 1 ? 0 : 1;
@@ -121,5 +124,44 @@ function respuestaGuardarDatosLista(response){
     else{
         alert("Error al actualizar datos");
         desplegarHojaMantenimiento(material);
+    }
+}
+
+function desplegarEstadoMaterial(item){
+    let params = "?img_material=true&id_material="+item;
+    QRDirectoryAPI(API_URL+API_NAME,params,"GET",null,respuestaDesplegarEstadoMaterial);
+    
+}
+
+function respuestaDesplegarEstadoMaterial(response){
+    if(response.error == false && response.img != null){
+        status_material = response.estado;
+        establecerEstadoActual();
+    }
+}
+
+function establecerEstadoActual(){
+    nuevo_estado = status_material == 1 ? 0 : 1;
+    status_material == 1 ? document.querySelector("#estadoMaterial").setAttribute("checked",true) : null;
+    document.querySelector("#estadoMaterial").setAttribute("onchange","cambiarEstadoMaterial('"+material+"',"+nuevo_estado+")");
+    
+}
+
+function cambiarEstadoMaterial(id_material,nuevo_estado){
+    fd = new FormData();
+    fd.append("cambiar_estado_material",true);
+    fd.append("id_material",id_material);
+    fd.append("nuevo_estado",nuevo_estado);
+    QRDirectoryAPI(API_URL+API_NAME,null,"POST",fd,respuestaCambiarEstadoMaterial);
+}
+
+function respuestaCambiarEstadoMaterial(response){
+    if(!response.error){
+        alert("Estado cambiado");
+        window.location.reload();
+    }
+
+    else{
+        alert("Error al cambiar estado");
     }
 }

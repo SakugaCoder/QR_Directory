@@ -717,7 +717,7 @@
 
 	else if( isset($_GET['img_material']) && isset($_GET['id_material'])){
 		$id_mat = $_GET['id_material'];
-		$sql = "SELECT img FROM material WHERE id = ? ;";
+		$sql = "SELECT img,estado FROM material WHERE id = ? ;";
 		$stm = $con->prepare($sql);
 		$stm->bind_param("s",$id_mat);
 		$stm->execute();
@@ -727,6 +727,7 @@
 			$fila = $res->fetch_assoc();
 			$response->error = false;
 			$response->img = $fila['img'];
+			$response->estado = $fila['estado'];
 		}
 
 		else{
@@ -734,6 +735,66 @@
 		}
 		echo json_encode($response);
 	}
+
+	else if( isset($_POST['cambiar_estado_material']) && isset($_POST['id_material']) && isset($_POST['nuevo_estado'])){
+		$id_material = $_POST['id_material'];
+		$nuevo_estado = $_POST['nuevo_estado'];
+
+		$sql = "UPDATE material SET estado = ? WHERE id = ?";
+		$stm = $con->prepare($sql);
+		$stm->bind_param("is",$nuevo_estado,$id_material);
+		$stm->execute();
+		$res = new StdClass();
+		if($stm){
+			$res->error = false;
+		}
+
+		else{
+			$res->error = true;
+		}
+
+		echo json_encode($res);
+		
+	}
+
+	else if(isset($_POST['username']) && isset($_POST['pswd'])){
+		$username = $_POST['username'];
+		$pswd = $_POST['pswd'];
+		$sql = "SELECT password FROM usuarios WHERE nombre = ?";
+		$stm = $con->prepare($sql);
+		$stm->bind_param("s",$username);
+		$stm->execute();
+		$res = new StdClass();
+		if($stm){
+			$result = $stm->get_result();
+			$row = $result->fetch_array();
+			if($row != null){
+				if(password_verify($pswd,$row['password'])){
+					$res->error = false;
+				}
+
+				else{
+					$res->error = true;
+					$res->msg = "Contraseñas no concuerdan";
+				}
+			}
+			else{
+				$res->error = true;
+				$res->msg = "no existe usuario";
+			}
+			
+	
+
+		}
+
+		else{
+			$res->eror = true;
+			$res->msg = "Consulta incorrecta";
+		}
+	
+		echo json_encode($res);
+	}
+
 
 	else{
 		//echo "Wrong request";

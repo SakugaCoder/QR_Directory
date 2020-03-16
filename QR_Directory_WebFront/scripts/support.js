@@ -1,6 +1,7 @@
 var item = null;
 (function(){
 	window.onload = function() {
+        validateLogin();
         item = this.getNavQuery();
         if(item){
             console.log("Si tenemos item");

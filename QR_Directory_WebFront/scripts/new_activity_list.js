@@ -1,7 +1,7 @@
 item = null;
 let form_actividades = document.querySelector(".actividades");
 (function(){
-
+    validateLogin();
 }());
 
 
