@@ -1,4 +1,5 @@
-API_URL = "http://localhost/QR_Directory/QR_Directory_API/";
+//API_URL = "http://localhost/QR_Directory/QR_Directory_API/";
+API_URL = "http://192.168.1.77/QR_Directory/QR_Directory_API/";
 API_NAME = "api.php";
 LOGIN_NAME = "login.php";
 
@@ -83,7 +84,7 @@ function showQueryResults(contaier,descripcion,marca,modelo,id,img){
         let item_image = document.querySelector("#"+id+"-image");
         id = id.split("-")[0] + "-"+id.split("-")[2];
         //console.log("new id"+id);   
-        item_image.style.background = "url('http://localhost/QR_Directory/QR_Directory_API/"+img+"')";
+        item_image.style.background = "url('http://192.168.1.77/QR_Directory/QR_Directory_API/"+img+"')";
         item_image.style.backgroundSize = "70% 70%";
         item_image.style.backgroundPosition = "center",
         item_image.style.backgroundRepeat = "no-repeat";

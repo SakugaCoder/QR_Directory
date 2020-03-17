@@ -31,7 +31,6 @@ function respuestaDesplegarHojaMantenimiento(respuesta){
             let comentarios = registro.comentarios;
             let actividades_html = "";
             let id_la = registro.id_lista_actividades_programadas;
-            actividades_html += "<p>Habilitada <input type='checkbox' id='habilitada-check' name='habilitada-check' onchange></p>"
             registro.actividades.forEach( function(actividad){
                 let estado_actual = actividad.terminada;
                 let nuevo_estado = estado_actual == 1 ? 0 : 1;

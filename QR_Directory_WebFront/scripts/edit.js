@@ -123,9 +123,9 @@ function getItem(item){
                     edit_form.laboratorio.selectedIndex = Number(laboratorio);
                     edit_form.tipo_material.selectedIndex = Number(tipo_material);
 
-                    edit_form.item_image.setAttribute("data-default-file","http://localhost/QR_Directory/QR_Directory_API/"+img);
-                    edit_form.ficha_tecnica.setAttribute("data-default-file","http://localhost/QR_Directory/QR_Directory_API/"+ficha_tecnica);
-                    document.querySelector("#datasheet_prev").setAttribute("data","http://localhost/QR_Directory/QR_Directory_API/"+ficha_tecnica);
+                    edit_form.item_image.setAttribute("data-default-file","http://192.168.1.77/QR_Directory/QR_Directory_API/"+img);
+                    edit_form.ficha_tecnica.setAttribute("data-default-file","http://192.168.1.77/QR_Directory/QR_Directory_API/"+ficha_tecnica);
+                    document.querySelector("#datasheet_prev").setAttribute("data","http://192.168.1.77/QR_Directory/QR_Directory_API/"+ficha_tecnica);
 					$('.dropify').dropify({
 					    tpl: {
 					        wrap:            '<div class="dropify-wrapper"></div>',
@@ -154,7 +154,7 @@ function getItem(item){
             }
         }
     };
-    XMLHttp.open("GET","http://localhost/QR_Directory/QR_Directory_API/api.php?item="+item,true);
+    XMLHttp.open("GET","http://192.168.1.77/QR_Directory/QR_Directory_API/api.php?item="+item,true);
     XMLHttp.send();
 }
 
@@ -197,7 +197,7 @@ function insertItem(evt){
 		}
 	};
 
-	xmlHttp.open("POST","http://localhost/QR_Directory/QR_Directory_API/api.php",true);
+	xmlHttp.open("POST","http://192.168.1.77/QR_Directory/QR_Directory_API/api.php",true);
 
 	xmlHttp.send(fd);
 }

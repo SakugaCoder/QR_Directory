@@ -155,6 +155,7 @@ function responseGetItem(data){
             ficha_tecnica = items[item].ficha_tecnica;
             habilitadas = items[item].habilitadas;
             img = items[item].img;
+	    console.log("Imagen que obtengo: "+img);
             laboratorio = items[item].laboratorio;
             marca = items[item].marca;
             modelo = items[item].modelo;
